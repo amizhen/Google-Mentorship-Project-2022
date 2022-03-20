@@ -13,4 +13,6 @@ def getdemandict(response, year):
         if thing[0][:4] == year:
             demand[thing[0]] = thing[1]
     return demand
-print(getdemandict(test, "2022"))
+
+if __name__ == "__main__":
+    print(getdemandict(test, "2022"))
