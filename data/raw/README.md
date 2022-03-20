@@ -1,10 +1,24 @@
 # Data
 
-Note about data.
+Data from [here](https://maps.nrel.gov/re-atlas/?aL=0&bL=clight&cE=0&lR=0&mC=37.56199695314352%2C-94.306640625&zL=5)
+
+***YOU HAVE TO DOWNLOAD us_csp_total.kml IT IS THE CONCENTRATED SOLAR POWER - NOT THE FILTERED ONE. PUT IT WITH THE REST OF THE KML FILES!!!***
+
+
+|      File name      |                 Description                 |
+| :-----------------: | :-----------------------------------------: |
+|     biomass.kml     |                biomass data                 |
+|   wave_energy.csv   |             wave power density              |
+|  us_csp_total.kml   | Concentrated Solar Power Total (unfiltered) |
+|  us_geothermal.kml  |               Geothermal data               |
+|   smallhydro.kml    |      Feasible Small hydro project data      |
+| NonPowered_Dams.kml |            Nonpowered dams data             |
+
+## Note about data.
 
 CSV files do not provide us with coordinates except for one. Their ID do not seem to have a correlation that can be predicted and mapped.
 
-KML files have coordinates. They are located within 
+KML files have coordinates. They are located within a LookAt tag
 
 ```xml
 <LookAt>
@@ -18,7 +32,7 @@ KML files have coordinates. They are located within
 </LookAt>
 ```
 
-KML files need to be parsed by an XML parser which is more annoying. They also contain a huge chunk of text which is html written with escape sequences:
+KML files need to be parsed by an XML parser which is more annoying. They also contain a huge chunk of text which is html written with escape sequences. These sections are found under the description tag.
 
 ```
 &lt;ul class="textattributes"&gt;
