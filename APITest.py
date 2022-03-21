@@ -1,9 +1,9 @@
 import requests
 
-eia_key = ' '
+eia_key = 'sHRohhxug9f2eXfGI81iOA4WSKmykZwHtRw9mxO0'
 usage_url = f"https://api.eia.gov/series/?api_key={eia_key}&series_id=EBA.NY-ALL.D.H"
 
-response_usage = requests.request("POST", usage_url)
+response_usage = requests.get(usage_url)
 
 if __name__ == "__main__":
     if response_usage.status_code == 200:
