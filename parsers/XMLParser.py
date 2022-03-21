@@ -26,39 +26,43 @@ We could only take the Coordinates and Name and modify existing csv files
 kml files we need to process are in data/raw/kml
 """
 
-filePath = r"data\raw\kml\biomass.kml"
-
-tree = ET.parse(filePath)
-root = tree.getroot()
-
-namespaces = {
-    "":"http://www.opengis.net/kml/2.2"
-}
-
-pattern = re.compile('"atr-name">(\w*).*"atr-value">(\w*)<')
-
-state = True;
-
+"""
+Usage - python XMLParser.py {insert kml file name without extension}
+"""
 if __name__ == "__main__":
+    ns = {"":"http://www.opengis.net/kml/2.2"}
+    pattern = re.compile('"atr-name">([\w,.,-]*).*"atr-value">([\w,.,-]*)<')
+    fileKml = f"data\\raw\\kml\\{sys.argv[1]}.kml"
 
-    file = f"data\\raw\\kml\\{sys.argv[1]}.kml"
+    tree = ET.parse(fileKml)
+    root = tree.getroot()
+
     with open(f"data\\processed\\{sys.argv[1]}.csv", "w") as file:
-        
-        line = root.find("./Document/Folder/Placemark/description").text
 
-        for placemark in root.findall("./Document/Folder/Placemark", namespaces=namespaces):
-            data = {}
-
-            placemarkID = placemark.find("./name", namespaces=namespaces).text
-
-            long = placemark.find("./LookAt/longitude", namespaces=namespaces).text
-            lat = placemark.find("./LookAt/latitude", namespaces=namespaces).text
-            
-            for match in pattern.finditer(placemark.find("./description", namespaces=namespaces).text):
-                data |= {match.group(1) : match.group(2)}
-
-    with open(f"data\\processed\\{file}.csv", "w") as file:
         firstLine = "FID,lat,lon"
-        for key in data.keys():
-            firstLine += "," + key
-        file.write(key)
+        #firstLine = "FID"
+        line = root.find("./Document/Folder/Placemark/description", namespaces=ns).text
+        keys = []
+        for match in pattern.finditer(line):
+            firstLine += "," + match.group(1)
+            keys.append(match.group(1))
+
+        file.write(firstLine + "\n");
+
+        for placemark in root.findall("./Document/Folder/Placemark", namespaces=ns):
+            data = dict.fromkeys(keys)
+
+            placemarkID = placemark.find("./name", namespaces=ns).text
+
+            long = placemark.find("./LookAt/longitude", namespaces=ns).text
+            lat = placemark.find("./LookAt/latitude", namespaces=ns).text
+            
+            for match in pattern.finditer(placemark.find("./description", namespaces=ns).text):
+                data[match.group(1)] = match.group(2)
+
+            dataLine = f"{placemarkID},{lat},{long}"
+            # ataLine = f"{placemarkID}"
+            for key in data:
+                dataLine += "," + data[key] if data[key] != None else ""
+            dataLine+="\n"
+            file.write(dataLine)
