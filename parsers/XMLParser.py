@@ -31,7 +31,7 @@ Usage - python XMLParser.py {insert kml file name without extension}
 """
 if __name__ == "__main__":
     ns = {"":"http://www.opengis.net/kml/2.2"}
-    pattern = re.compile('"atr-name">([\w,.,-]*).*"atr-value">([\w,.,-]*)<')
+    pattern = re.compile('"atr-name">([\w.-/\s]*).*"atr-value">([-\w./\s]*)<')
     fileKml = f"data\\raw\\kml\\{sys.argv[1]}.kml"
 
     tree = ET.parse(fileKml)
@@ -39,8 +39,8 @@ if __name__ == "__main__":
 
     with open(f"data\\processed\\{sys.argv[1]}.csv", "w") as file:
 
-        firstLine = "FID,lat,lon"
-        #firstLine = "FID"
+        # firstLine = "FID,lat,lon"
+        firstLine = "FID"
         line = root.find("./Document/Folder/Placemark/description", namespaces=ns).text
         keys = []
         for match in pattern.finditer(line):
@@ -54,15 +54,15 @@ if __name__ == "__main__":
 
             placemarkID = placemark.find("./name", namespaces=ns).text
 
-            long = placemark.find("./LookAt/longitude", namespaces=ns).text
-            lat = placemark.find("./LookAt/latitude", namespaces=ns).text
+            #long = placemark.find("./LookAt/longitude", namespaces=ns).text
+            #lat = placemark.find("./LookAt/latitude", namespaces=ns).text
             
             for match in pattern.finditer(placemark.find("./description", namespaces=ns).text):
                 data[match.group(1)] = match.group(2)
 
-            dataLine = f"{placemarkID},{lat},{long}"
-            # ataLine = f"{placemarkID}"
+            # dataLine = f"{placemarkID},{lat},{long}"
+            dataLine = f"{placemarkID}"
             for key in data:
-                dataLine += "," + data[key] if data[key] != None else ""
+                dataLine += "," + (data[key] if data[key] != None else "")
             dataLine+="\n"
             file.write(dataLine)
