@@ -19,41 +19,40 @@ file = csv.DictReader(filePath)
 
 class CSVParser:
 
-    def __init__(self, filePath : str):
-        self.filePath = filePath
-        self.csvFile = open(filePath, "r")
-        self.opened = True
-        self.categories = []
+    def __init__(self, filePath : str, *args : list[str]):
+        self._filePath = filePath
+        self._csvFile = open(filePath, "r")
+        self._opened = True
+        self._reader = csv.DictReader(self._csvFile)
+        self._categories = [arg for arg in args if arg in self._reader.fieldnames]
 
     def __call__(self) -> list[Mapping[str, str]]:
-        if self.opened:
-            print(self.filePath)
-            print(self.categories)
-            reader = csv.DictReader(self.csvFile)
-            reader.fieldnames
-        # return [{key : row[key] for key in row} for row in reader] # TODO: Fix the dict comprehension
+        if not self._categories:
+            print("stff") # TODO: throw exception
+        if self._opened:
+            data = []
+            for row in self._reader:
+                rowData = {category : row[category] for category in self._categories}
+                if rowData:
+                    data.append(rowData)
+            return data
 
     def addCategory(self, *args : list[str]) -> None:
         for category in args:
-            if isinstance(category, str) and category not in self.categories:
-                self.categories.append(category)
+            if isinstance(category, str) and category not in self._categories and category in self._reader.fieldnames:
+                self._categories.append(category)
 
     def removeCategory(self, *args : list[str]) -> None:
         for category in args:
-            if isinstance(category, str) and category in self.categories:
-                self.categories.remove(category)
+            if isinstance(category, str) and category in self._categories and category in self._reader.fieldnames:
+                self._categories.remove(category)
 
     def clearCategory(self) -> None:
-        self.categories.clear();
+        self._categories.clear();
 
     def close(self) -> None :
-    
-        self.csvFile.close()
-        self.opened = False
-
+        self._csvFile.close()
+        self._opened = False
 
 if __name__ == "__main__":
-    parser = CSVParser("data\\raw\\csv\\biomass.csv")
-    parser.addCategory("Lat")
-
-    parser()
+    print(CSVParser("data\\raw\\csv\\biomass.csv", "lat", "lon")())
