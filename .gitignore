@@ -133,3 +133,6 @@ dmypy.json
 
 # Ignore us_csp_total.kml
 us_csp_total.kml
+
+# Ignore API Key file
+key.txt
