@@ -29,7 +29,8 @@ class CSVParser:
         if self.opened:
             print(self.filePath)
             print(self.categories)
-        # reader = csv.DictReader(self.csvFile)
+            reader = csv.DictReader(self.csvFile)
+            reader.fieldnames
         # return [{key : row[key] for key in row} for row in reader] # TODO: Fix the dict comprehension
 
     def addCategory(self, *args : list[str]) -> None:
@@ -46,6 +47,7 @@ class CSVParser:
         self.categories.clear();
 
     def close(self) -> None :
+    
         self.csvFile.close()
         self.opened = False
 
