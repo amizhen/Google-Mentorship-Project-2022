@@ -34,6 +34,8 @@ if __name__ == "__main__":
     pattern = re.compile('"atr-name">([\w.-/\s]*).*"atr-value">([-\w./\s]*)<')
     fileKml = f"data\\raw\\kml\\{sys.argv[1]}.kml"
 
+    includeCoord = bool(sys.argv[2])
+
     tree = ET.parse(fileKml)
     root = tree.getroot()
 
