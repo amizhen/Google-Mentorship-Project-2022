@@ -23,7 +23,7 @@ def getdemandict(state, year):
     region = regions[state]
     eia_key = open("key.txt", "r").read(40)
     url = "https://api.eia.gov/series/?api_key="+eia_key+"&series_id=EBA."+region+"-ALL.D.H"
-    response = requests.request("POST", url)
+    response = requests.get(url)
     demand = {}
     if response.status_code == 200:
         data = json.loads(response.text)
