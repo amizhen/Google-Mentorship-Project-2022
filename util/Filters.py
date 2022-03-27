@@ -1,7 +1,7 @@
+import collections
 import functools
 import re
 from typing import Any, Callable, Mapping, Sequence, Union
-
 
 class Filter:
     """
@@ -22,7 +22,7 @@ class Filter:
 
         Example 2: Use anonymous functions / lambdas
 
-            @Filter(lambda data : data["test] < 10)
+            @Filter(lambda data : data["test"] < 10)
             def getData() -> Sequence[Mapping[str, Any]]:
                 return INSERT_SEQUENCE_OF_DATA
 
@@ -49,19 +49,19 @@ class Filter:
     The class comes with some predefined filters that may be used.
     """
 
-    def __init__(self, filter_func: Callable[[Mapping[str, Any]], bool]):
+    def __init__(self, filter_func: Callable[[Union[Mapping[str, Any], Sequence[Any]]], bool]):
         """
         Initializes the filter decorator
 
         Args:
             filter_func: 
-                The filter function accepts a mapping of data and returns a boolean.
-                It will be used to filter a sequence of mapping of data
+                The filter function accepts a mapping or sequence of data and returns a boolean.
+                It will be used to filter a sequence of datasets
         """
 
         self._filter_func = filter_func
 
-    def __call__(self, func: Callable[[], Sequence[Mapping[str, Any]]]) -> Callable[[], Sequence[Mapping[str, Any]]]:
+    def __call__(self, func: Callable[[], Union[Sequence[Mapping[str, Any]], Sequence[Sequence[Any]]]]) -> Callable[[], Union[Sequence[Mapping[str, Any]], Sequence[Sequence[Any]]]]:
         """
         Returns a wrapper function to be used as a filter decorator
 
@@ -69,21 +69,17 @@ class Filter:
             func: A function that returns a sequence of mapping of data to be filtered
 
         Returns:
-            A sequence of mapping after the filter has been applied
+            A sequence of mapping or sequence after the filter has been applied
         """
 
         @functools.wraps(func)
         def wrapper():
-            filtered = []
             data = func()
-            for datum in data:
-                if self._filter_func(datum):
-                    filtered.append(datum)
-            return filtered
+            return [datum for datum in data if self._filter_func(datum)]
         return wrapper
 
     @staticmethod
-    def get_value(path: str, data: Mapping[str, Any]) -> Union[Any, None]:
+    def get_value(path: Union[str, int], data: Union[Mapping[str, Any], Sequence[Any]]) -> Union[Any, None]:
         """
         Fetches the value in data mapping from the path of its location.
 
@@ -93,24 +89,31 @@ class Filter:
         Args:
             path: 
                 A valid path string to the location of the data you want to retrieve in the data mapping
+                OR a valid index for a value in a sequence of data
             data:
-                A mapping of a string key to any type value. Contains the value you want to retrieve
+                A mapping of a string key to any type value or a sequence of data. 
+                Contains the value you want to retrieve.
 
         Returns: 
-            The value found in the data mapping from the provided path
+            The value found in the data mapping or sequence from the provided path
 
         Raises:
             ValueError: The path cannot be empty 
             KeyError: The path is incorrectly formatted
+            IndexError: Invalid index
         """
 
-        if not path:
-            raise ValueError("The path can not be empty")
-        paths = re.split(r"[.\/\\]", path)
-        get = data.get(paths[0])
-        for p in paths[1:]:
-            get = get.get(p)
-        return get
+        if isinstance(data, collections.abc.Mapping):
+            if not path:
+                raise ValueError("The path can not be empty")
+            paths = re.split(r"[.\/\\]", path)
+            get = data.get(paths[0])
+            for p in paths[1:]:
+                get = get.get(p)
+            return get
+        elif isinstance(data, collections.abc.Sequence):
+            # TODO: THIS BREAKS WITH NESTED LISTS - NEED TO IMPLEMENT THIS
+            return data[path]
 
     @classmethod
     def less_than(cls, path: str, value: Any) -> "Filter":
@@ -119,7 +122,7 @@ class Filter:
 
         Args:
             path: 
-                The path to the data in the data mapping
+                The path to the data in the data mapping or the index in a sequence
             value:
                 A value that the data should be less than in the filter
 
@@ -141,7 +144,7 @@ class Filter:
 
         Args:
             path: 
-                The path to the data in the data mapping
+                The path to the data in the data mapping or the index in a sequence
             value:
                 A value that the data should be greater than in the filter
 
@@ -163,7 +166,7 @@ class Filter:
 
         Args:
             path: 
-                The path to the data in the data mapping
+                The path to the data in the data mapping or the index in a sequence
             value:
                 A value that the data should be less than or equal to in the filter
 
@@ -185,7 +188,7 @@ class Filter:
 
         Args:
             path: 
-                The path to the data in the data mapping
+                The path to the data in the data mapping or the index in a sequence
             value:
                 A value that the data should be greater than or equal to in the filter
 
@@ -207,7 +210,7 @@ class Filter:
 
         Args:
             path: 
-                The path to the data in the data mapping
+                The path to the data in the data mapping or the index in a sequence
             lower_bound:
                 A value that is the lower bound of the range
             upper_bound:
@@ -231,7 +234,7 @@ class Filter:
 
         Args:
             path: 
-                The path to the data in the data mapping
+                The path to the data in the data mapping or the index in a sequence
             lower_bound:
                 A value that is the lower bound of the range
             upper_bound:
@@ -255,7 +258,7 @@ class Filter:
 
         Args:
             path: 
-                The path to the data in the data mapping
+                The path to the data in the data mapping or the index in a sequence
             value:
                 A value that the data should be equal to in the filter
 
@@ -277,7 +280,7 @@ class Filter:
 
         Args:
             path: 
-                The path to the data in the data mapping
+                The path to the data in the data mapping or the index in a sequence
             value:
                 A value that the data should be not equal to in the filter
 

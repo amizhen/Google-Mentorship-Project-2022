@@ -1,5 +1,6 @@
+from typing import Mapping
 import requests
-import json
+
 regions = {
     "California" : "CAL", 
     **dict.fromkeys(["North Carolina", "South Carolina"], "CAR"),
@@ -17,22 +18,14 @@ regions = {
     
 }
 
-#Test parser to get all the data for a certain year from new york, will generalize later for all the states
-#Response should be a post request and years should be in string format
-def getdemandict(state, year):
-    region = regions[state]
+def getdemandict(state : str, year : int) -> Mapping[str, int]:
     eia_key = open("key.txt", "r").read(40)
-    url = "https://api.eia.gov/series/?api_key="+eia_key+"&series_id=EBA."+region+"-ALL.D.H"
-    response = requests.get(url)
-    demand = {}
+    response = requests.get(f"https://api.eia.gov/series/?api_key={eia_key}&series_id=EBA.{regions[state]}-ALL.D.H")
     if response.status_code == 200:
-        data = json.loads(response.text)
-        for thing in data["series"][0]["data"]:
-            if thing[0][:4] == year:
-                demand[thing[0]] = thing[1]
-        return demand
+        data = response.json()
+        return {datum[0] : datum[1] for datum in data["series"][0]["data"] if datum[0][:4] == str(year)}
     else:
-        print("request ded")
+        print("Request Failed")
 
 if __name__ == "__main__":
-    print(getdemandict("Arizona", "2022"))
+    print(getdemandict("Arizona", 2015))
