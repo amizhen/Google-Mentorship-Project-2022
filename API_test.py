@@ -1,6 +1,7 @@
 import requests
 
-eia_key = 'sHRohhxug9f2eXfGI81iOA4WSKmykZwHtRw9mxO0'
+with open("key.txt", "r") as file:
+    eia_key = file.readline()
 usage_url_eia = f"https://api.eia.gov/series/?api_key={eia_key}&series_id=EBA.NY-ALL.D.H"
 
 lat = 42.355978782625336
