@@ -14,4 +14,5 @@ def get_solar(lat : float, lon : float) -> Mapping[str, dict]:
     else:
         raise ValueError(f'Request Failed {response.status_code}')
 
-print(get_solar(42.355978782625336, -74.9824086324889))
+if __name__ == '__main__':
+    print(get_solar(42.355978782625336, -74.9824086324889))

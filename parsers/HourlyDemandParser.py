@@ -18,7 +18,7 @@ regions = {
     
 }
 
-def get_demand(state : str, *years : int) -> Mapping[str, int]:
+def get_demand(state : str, *years : int) -> Mapping[str, int]: #Might be worth changing the *years to a list.
     with open("key.txt", "r") as file:
         eia_key = file.readline()
     response = requests.get(f"https://api.eia.gov/series/?api_key={eia_key}&series_id=EBA.{regions[state]}-ALL.D.H")
