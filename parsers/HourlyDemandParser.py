@@ -18,13 +18,13 @@ regions = {
     
 }
 
-def get_demand(state : str, year : int) -> Mapping[str, int]:
+def get_demand(state : str, *years : int) -> Mapping[str, int]:
     with open("key.txt", "r") as file:
         eia_key = file.readline()
     response = requests.get(f"https://api.eia.gov/series/?api_key={eia_key}&series_id=EBA.{regions[state]}-ALL.D.H")
     if response.status_code == 200:
         data = response.json()
-        return {datum[0] : datum[1] for datum in data["series"][0]["data"] if datum[0][:4] == str(year)}
+        return {datum[0] : datum[1] for datum in data["series"][0]["data"] if int(datum[0][:4]) in years}
     else:
         raise ValueError(f'Request Failed {response.status_code}')
 
