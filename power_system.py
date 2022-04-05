@@ -8,6 +8,7 @@ class PowerSys:
     def __str__(self):
         return f'({self.solar}, {self.wind}, {self.storage})'
 
-if __name__ == 'main':
+if __name__ == '__main__':
     a = PowerSys(1, 2, 3)
     print(a)
+    print(a.storage)
