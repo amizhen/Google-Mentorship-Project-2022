@@ -89,3 +89,11 @@ def get_wind_data(lat : float, lon : float, skip : Union[TimeRange, int] = TimeR
 
     return {dt[i] : ds[i] for i in range(len(dt))}
 
+def get_GHI(lat : float, lon : float, year : int):
+    response = requests.get(r"https://power.larc.nasa.gov/api/temporal/hourly/point?parameters=ALLSKY_SFC_SW_DWN&community=RE&longitude={lon}&latitude={lat}&start={year}0101&end={year}1231&format=JSON")
+    if response.status_code == 200:
+        data = response.json();
+        return data["properties"]["parameter"]["ALLSKY_SFC_SW_DWN"]
+    else:
+        raise ValueError(f"Request Failed {response.status_code}")
+
