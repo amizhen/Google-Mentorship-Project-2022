@@ -1,7 +1,6 @@
 
 import math
 
-
 def get_wind_power(air_density : float, radius : float, wind_velocity : float, efficiency : float) -> float:
     """
     Function to calculate the power (joules per second) produced by a wind turbine

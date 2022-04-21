@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from enum import IntEnum
 from typing import Mapping, Union
 
@@ -41,22 +42,13 @@ with open("key.txt", "r") as file:
 # So it only opens onces
 WTK = h5pyd.File("/nrel/wtk-us.h5", "r", endpoint="https://developer.nrel.gov/api/hsds", api_key = API_KEY)
 
-def get_solar_data(lat : float, lon : float) -> Mapping[str, Mapping[str, Union[float, Mapping[str, float]]]]:
-    """
-    A function that retrieves monthly solar data
-
-    Args:
-        lat : latitude
-        lon : longitude
-
-    Returns:
-        A mapping of the solar data at the given position
-    """
-    response = requests.get(f'https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key={API_KEY}&lat={lat}&lon={lon}')
+def get_solar_data(lat : float, lon : float, start : date, end : date):
+    response = requests.get(f"https://power.larc.nasa.gov/api/temporal/hourly/point?start={start.strftime('%Y%m%d')}&end={end.strftime('%Y%m%d')}&latitude={lat}&longitude={lon}&community=re&parameters=ALLSKY_SFC_LW_DWN&format=json&header=false&time-standard=utc")
     if response.status_code == 200:
-        return response.json()["outputs"]
+        return response.json()["properties"]["parameter"]["ALLSKY_SFC_LW_DWN"]
+         # [::TimeRange.EVERY_12_HOUR]
     else:
-        raise ValueError(f'Request Failed {response.status_code}')
+        raise ValueError()
 
 def get_electric_demand(state : str, *years : int) -> Mapping[str, int]:
     """
@@ -96,3 +88,4 @@ def get_wind_data(lat : float, lon : float, skip : Union[TimeRange, int] = TimeR
     ds = WTK["windspeed_80m"][12::skip, wtk_ij[0], wtk_ij[1]]
 
     return {dt[i] : ds[i] for i in range(len(dt))}
+
