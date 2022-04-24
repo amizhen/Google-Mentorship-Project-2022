@@ -6,7 +6,7 @@ class PowerSys:
         self.fitness = 0
 
     def __str__(self):
-        return f'({self.solar}, {self.wind}, {self.storage})'
+        return f'({self.solar}, {self.wind}, {self.storage}, {self.fitness})'
 
     def __lt__(self, other):
         return self.fitness < other.fitness
