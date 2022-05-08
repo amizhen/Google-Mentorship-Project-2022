@@ -1,5 +1,17 @@
-
 import math
+
+
+def change_wind_altitude(speed_10 : float, speed_50 : float, target = 80.0):
+    '''
+    :param speed_10: Wind speed at 10 meters
+    :param speed_50: Wind speed at 50 meters
+    :param target: Optional target height, defaults to 80 meters.
+    :return:
+    '''
+
+    roughness = [0.0002, 0.0024, 0.03, ]
+
+
 
 def get_wind_power(air_density : float, radius : float, wind_velocity : float, efficiency : float) -> float:
     """
@@ -15,7 +27,7 @@ def get_wind_power(air_density : float, radius : float, wind_velocity : float, e
             The efficency of the wind turbines. The theoretical max is 16/27 according to Betz's limit
 
     Returns:
-        The power (J/s) produced by the wind turbine
+        The power (J/s) (Watts) produced by the wind turbine
     """
 
     return 0.5 * air_density * radius ** 2 * math.pi * wind_velocity ** 3 * efficiency
