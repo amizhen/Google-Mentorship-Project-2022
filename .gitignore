@@ -136,6 +136,7 @@ us_csp_total.kml
 
 # Ignore API Key file
 key.txt
+*key*
 
 # ignore test file
 Test.py

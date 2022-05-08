@@ -1,5 +1,5 @@
-from datetime import date, datetime
-from enum import IntEnum
+from argparse import ArgumentError
+from datetime import datetime, timedelta
 from typing import Mapping, Union
 
 import requests
@@ -24,76 +24,49 @@ regions = {
     "Texas" : "TEX"  
 }
 
-class TimeRange(IntEnum):
-    """
-    A enum holding common periods in hours
-    """
-
-    EVERY_12_HOUR = 12
-    EVERY_24_HOUR = 24
-    EVERY_WEEK = 24 * 7
-    EVERY_TWO_WEEK = 24 * 14
-    DAILY = EVERY_24_HOUR
-    WEEKLY = EVERY_WEEK
-
 with open("key.txt", "r") as file:
     API_KEY = file.read(40)
 
 # So it only opens onces
 WTK = h5pyd.File("/nrel/wtk-us.h5", "r", endpoint="https://developer.nrel.gov/api/hsds", api_key = API_KEY)
 
-def get_solar_data(lat : float, lon : float, start : date, end : date):
+def get_solar_data(lat : float, lon : float, start : datetime, end : datetime):
+    end = end - timedelta(days=1);
     response = requests.get(f"https://power.larc.nasa.gov/api/temporal/hourly/point?start={start.strftime('%Y%m%d')}&end={end.strftime('%Y%m%d')}&latitude={lat}&longitude={lon}&community=re&parameters=ALLSKY_SFC_LW_DWN&format=json&header=false&time-standard=utc")
     if response.status_code == 200:
-        return response.json()["properties"]["parameter"]["ALLSKY_SFC_LW_DWN"]
-         # [::TimeRange.EVERY_12_HOUR]
+        data = response.json()["properties"]["parameter"]["ALLSKY_SFC_LW_DWN"]
+        return { datetime.strptime(datum, "%Y%m%d%H") : data[datum] for datum in data }
     else:
         raise ValueError()
 
-def get_electric_demand(state : str, *years : int) -> Mapping[str, int]:
+def get_electric_demand(state : str, start : datetime, end : datetime):
     """
     A function that retrieves electric demands of states. 
 
     Args:
         state : The state to retrieve data
-        years : The years of the data to be retrieved
+        start : the start datetime inclusive
+        end : the end datetime exclusive
 
     Returns:
         A mapping of the datetime to the energy consumption
     """
 
+    if end < start:
+        raise ArgumentError(message="end_year must be greater or equal to than start_year")
+
     response = requests.get(f"https://api.eia.gov/series/?api_key={API_KEY}&series_id=EBA.{regions[state]}-ALL.D.H")
-    if response.status_code == 200:
+    if (response.status_code == 200):
         data = response.json()
-        return {datum[0] : datum[1] for datum in data["series"][0]["data"] if int(datum[0][:4]) in years}
-    else:
-        raise ValueError(f'Request Failed {response.status_code}')
-
-def get_wind_data(lat : float, lon : float, skip : Union[TimeRange, int] = TimeRange.EVERY_WEEK) -> Mapping[pd.Timestamp, float]:
-    """
-    A function that retrieves wind data
-
-    Args:
-        lat : latitude
-        lon : longitude
-        skip : The period of time to skip between data points
-
-    Returns:
-        A mapping of timestamp to the wind speed data
-    """
-
-    wtk_ij = WTK_idx(WTK, (lat, lon))
-
-    dt = pd.to_datetime(WTK['datetime'][:].astype(str))[12::skip]
-    ds = WTK["windspeed_80m"][12::skip, wtk_ij[0], wtk_ij[1]]
-
-    return {dt[i] : ds[i] for i in range(len(dt))}
-
-def get_GHI(lat : float, lon : float, year : int):
-    response = requests.get(r"https://power.larc.nasa.gov/api/temporal/hourly/point?parameters=ALLSKY_SFC_SW_DWN&community=RE&longitude={lon}&latitude={lat}&start={year}0101&end={year}1231&format=JSON")
-    if response.status_code == 200:
-        data = response.json();
-        return data["properties"]["parameter"]["ALLSKY_SFC_SW_DWN"]
+        return { datetime.strptime(datum[0], "%Y%m%dT%HZ") : datum[1] for datum in data["series"][0]["data"] if start <= datetime.strptime(datum[0], "%Y%m%dT%HZ") < end }
     else:
         raise ValueError(f"Request Failed {response.status_code}")
 
+def get_wind_data(lat : float, lon : float, start : datetime, end : datetime):
+    wtk_ij = WTK_idx(WTK, (lat, lon))
+
+    epoch = datetime(2007, 1, 1)
+    hr = timedelta(hours = 1)
+    print(int((start - epoch) / hr))
+    ds = WTK["windspeed_80m"][int((start - epoch)/hr):int((end - epoch)/hr):1, wtk_ij[0], wtk_ij[1]]
+    return {(start + hr * i) : ds[i] for i in range(len(ds))}
