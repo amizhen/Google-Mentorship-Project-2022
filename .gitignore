@@ -140,3 +140,7 @@ key.txt
 
 # ignore test file
 Test.py
+
+# Additional ignore stuff for conveniance
+.idea
+.DS_Store

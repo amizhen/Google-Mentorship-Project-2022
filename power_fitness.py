@@ -1,9 +1,24 @@
+from data.Data import get_solar_data, get_wind_data, get_electric_demand
 from power_system import PowerSys
-from parsers.SolarData import get_solar
-from parsers.HourlyDemandParser import get_demand
+from datetime import date
 
+def test(sys : PowerSys, loc : str, start : date, end : date) -> None:
+    """
+    :param sys: Takes a power setup
+    :param loc: Takes a location
+    :param start: Start Date (find min/max)
+    :param end: End Date (find min/max)
+    :return: modifies the fitness parameter of the input power system (maybe returns other useful info about run)
+    """
 
-def test(sys : PowerSys, loc : str) -> int:
-    # Need dict for converting location to state or electrical grid region
-    # solar_gen_data = get_solar(0, 0)[avg_whatever][monthly] # Need to decide between dni and ghi
-    # usage_data = get_demand(loc, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022)
+    # Need to convert location to lat and longitute cords, maybe region too.
+
+    lat = 42.355978782625336
+    lon = -74.9824086324889
+
+    # wind_data = get_wind_data(lat, lon, start, end)
+    # solar_data = get_solar_data(lat, lon, start, end)
+    # demand = get_electric_demand(loc, )
+
+    return
+

@@ -20,7 +20,7 @@ def get_wind_power(air_density : float, radius : float, wind_velocity : float, e
 
     return 0.5 * air_density * radius ** 2 * math.pi * wind_velocity ** 3 * efficiency
 
-def get_solar_power(irradiance : float, length : float, width : float, efficiency : float = 0.15) -> float:
+def get_solar_power(irradiance : float, panel_area : float, efficiency : float = 0.15) -> float:
     """
     Function to calculate the power (joules per second) produced by solar panels
 
@@ -34,7 +34,7 @@ def get_solar_power(irradiance : float, length : float, width : float, efficienc
         The power (J/s) produced by the solar panel
     """
 
-    return irradiance * length * width * efficiency
+    return irradiance * panel_area * efficiency
 
 if __name__ == "__main__":
     print(get_solar_power(200, 10, 10))
