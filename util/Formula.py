@@ -1,22 +1,26 @@
 import math
 
 
-def wind_height(speed_50 : float, roughness : float, target = 80.0):
+def wind_height(speed_50: float, roughness: float, target=80.0):
     '''
     :param speed_50: Wind speed at 50 meters
     :param roughness: Surface roughness
     :param target: Optional target height, defaults to 80 meters.
     :return: the speed at target height
+    See for more details and formula:
+    https://wind-data.ch/tools/profile.php?h=10&v=5&z0=0.03&abfrage=To+update
     '''
-    return speed_50 * math.log(target/roughness) / math.log(50/roughness)
+    return speed_50 * math.log(target / roughness) / math.log(50 / roughness)
 
 
-def find_roughness(speeds_10 : dict, speeds_50 : dict):
+def find_roughness(speeds_10: dict, speeds_50: dict):
     '''
     :param speeds_10: however much of hourly speed data at 10 meters
     :param speeds_50: however much of hourly speed data at 50 meters.
     It is assumed that both data sets start at the same date.
     :return: The average calculated rougness
+    See for more details and formula:
+    https://wind-data.ch/tools/profile.php?h=10&v=5&z0=0.03&abfrage=To+update
     '''
     total = min(len(speeds_10), len(speeds_50))
     speeds_10 = list(speeds_10.values())
@@ -24,15 +28,20 @@ def find_roughness(speeds_10 : dict, speeds_50 : dict):
     sum = 0
     for i in range(total):
         sum += rougness_formula(speeds_10[i], speeds_50[i])
-    return sum/total
-
-def rougness_formula(speed_10 : float, speed_50 : float):
-    return (10**speed_50/50**speed_10)**(1.0/(speed_50-speed_10))
+    return sum / total
 
 
+def rougness_formula(speed_10: float, speed_50: float):
+    '''
+    :param speed_10: Speed at 10 meters
+    :param speed_50: Speed at 50 meters
+    :return: Roughness
+    Helper fuction for finding the roughness given wind speed at 50 and 10 meters
+    '''
+    return (10 ** speed_50 / 50 ** speed_10) ** (1.0 / (speed_50 - speed_10))
 
 
-def get_wind_power(air_density : float, radius : float, wind_velocity : float, efficiency : float) -> float:
+def get_wind_power(air_density: float, radius: float, wind_velocity: float, efficiency: float) -> float:
     """
     Function to calculate the power (joules per second) produced by a wind turbine
 
@@ -51,7 +60,8 @@ def get_wind_power(air_density : float, radius : float, wind_velocity : float, e
 
     return 0.5 * air_density * radius ** 2 * math.pi * wind_velocity ** 3 * efficiency
 
-def get_solar_power(irradiance : float, panel_area : float, efficiency : float = 0.15) -> float:
+
+def get_solar_power(irradiance: float, panel_area: float, efficiency: float = 0.15) -> float:
     """
     Function to calculate the power (joules per second) produced by solar panels
 
@@ -67,8 +77,12 @@ def get_solar_power(irradiance : float, panel_area : float, efficiency : float =
 
     return irradiance * panel_area * efficiency
 
+
 if __name__ == "__main__":
     # print(get_solar_power(200, 10, 10))
     # print(get_wind_power(1.23, 52, 13.37, 0.4))
     # print(wind_height(5.0, 100.0, 0.03))
-    print(find_roughness({1.0:5.0}, {1.0:6.39}))
+    # The keys don't matter for these test cases
+    print(find_roughness({1.0: 5.0}, {1.0: 6.39})) # should be 0.03
+    print(find_roughness({1.0: 5.7}, {1.0: 6.55})) # should be 0.0002
+    print(find_roughness({1.0: 5.7, 2.0 : 3.0, 3.0 : 10}, {1.0: 6.55, 2.0: 3.45, 3:11.49,10000:10000})) # should be 0.0002
