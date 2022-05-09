@@ -27,11 +27,11 @@ def find_roughness(speeds_10: dict, speeds_50: dict):
     speeds_50 = list(speeds_50.values())
     sum = 0
     for i in range(total):
-        sum += rougness_formula(speeds_10[i], speeds_50[i])
+        sum += roughness_formula(speeds_10[i], speeds_50[i])
     return sum / total
 
 
-def rougness_formula(speed_10: float, speed_50: float):
+def roughness_formula(speed_10: float, speed_50: float):
     '''
     :param speed_10: Speed at 10 meters
     :param speed_50: Speed at 50 meters
