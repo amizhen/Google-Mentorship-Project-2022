@@ -1,15 +1,33 @@
 import math
 
 
-def change_wind_altitude(speed_10 : float, speed_50 : float, target = 80.0):
+def wind_height(speed_10 : float, speed_50 : float, roughness : float, target = 80.0):
     '''
     :param speed_10: Wind speed at 10 meters
     :param speed_50: Wind speed at 50 meters
+    :param roughness: Surface roughness
     :param target: Optional target height, defaults to 80 meters.
-    :return:
+    :return: the speed at target height
     '''
+    return speed_10 * math.log(target/roughness) / math.log(10/roughness)
 
-    roughness = [0.0002, 0.0024, 0.03, ]
+
+def find_roughness(speeds_10 : dict, speeds_50 : dict):
+    '''
+    :param speeds_10: however much of hourly speed data at 10 meters
+    :param speeds_50: however much of hourly speed data at 50 meters.
+    It is assumed that both data sets start at the same date.
+    :return: The average calculated rougness
+    '''
+    total = min(len(speeds_10), len(speeds_50))
+    speeds_10 = speeds_10.values()
+    speeds_50 = speeds_50.values()
+    for i in range(total):
+        speeds_10[i]
+
+
+def rougness_formula(speed_10 : float, speed_50 : float):
+    
 
 
 
@@ -49,5 +67,6 @@ def get_solar_power(irradiance : float, panel_area : float, efficiency : float =
     return irradiance * panel_area * efficiency
 
 if __name__ == "__main__":
-    print(get_solar_power(200, 10, 10))
-    print(get_wind_power(1.23, 52, 13.37, 0.4))
+    # print(get_solar_power(200, 10, 10))
+    # print(get_wind_power(1.23, 52, 13.37, 0.4))
+    # print(wind_height(5.0, 100.0, 0.03))
