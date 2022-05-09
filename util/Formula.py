@@ -1,15 +1,14 @@
 import math
 
 
-def wind_height(speed_10 : float, speed_50 : float, roughness : float, target = 80.0):
+def wind_height(speed_50 : float, roughness : float, target = 80.0):
     '''
-    :param speed_10: Wind speed at 10 meters
     :param speed_50: Wind speed at 50 meters
     :param roughness: Surface roughness
     :param target: Optional target height, defaults to 80 meters.
     :return: the speed at target height
     '''
-    return speed_10 * math.log(target/roughness) / math.log(10/roughness)
+    return speed_50 * math.log(target/roughness) / math.log(50/roughness)
 
 
 def find_roughness(speeds_10 : dict, speeds_50 : dict):
@@ -20,14 +19,16 @@ def find_roughness(speeds_10 : dict, speeds_50 : dict):
     :return: The average calculated rougness
     '''
     total = min(len(speeds_10), len(speeds_50))
-    speeds_10 = speeds_10.values()
-    speeds_50 = speeds_50.values()
+    speeds_10 = list(speeds_10.values())
+    speeds_50 = list(speeds_50.values())
+    sum = 0
     for i in range(total):
-        speeds_10[i]
-
+        sum += rougness_formula(speeds_10[i], speeds_50[i])
+    return sum/total
 
 def rougness_formula(speed_10 : float, speed_50 : float):
-    
+    return (10**speed_50/50**speed_10)**(1.0/(speed_50-speed_10))
+
 
 
 
@@ -70,3 +71,4 @@ if __name__ == "__main__":
     # print(get_solar_power(200, 10, 10))
     # print(get_wind_power(1.23, 52, 13.37, 0.4))
     # print(wind_height(5.0, 100.0, 0.03))
+    print(find_roughness({1.0:5.0}, {1.0:6.39}))
