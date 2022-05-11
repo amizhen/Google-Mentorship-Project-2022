@@ -15,24 +15,23 @@ class PowerSys:
 
     # Makes PowerSys sortable by the fitness score
 
-    def __lt__(self, other):
-        return self.fitness < other.fitness
-
-    def __le__(self, other):
-        return self.fitness <= other.fitness
-
-    def __eq__(self, other):
+    def __eq__(self, other : "PowerSys"):
         return self.fitness == other.fitness
 
-    def __ne__(self, other):
-        return self.fitness != other.fitnes
+    def __lt__(self, other : "PowerSys"):
+        return self.fitness < other.fitness
 
-    def __gt__(self, other):
-        return self.fitness > other.fitness
+    def __ne__(self, other : "PowerSys"):
+        return not self.__eq__(other)
 
-    def __ge__(self, other):
-        return self.fitness >= other.fitness
+    def __gt__(self, other : "PowerSys"):
+        return other.__lt__(other)
 
+    def __ge__(self, other : "PowerSys"):
+        return not self.__lt__(other)
+
+    def __le__(self, other : "PowerSys"):
+        return other.__ge__(self)
 
 if __name__ == '__main__':
     a = PowerSys(1, 2, 3)

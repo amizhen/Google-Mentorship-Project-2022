@@ -1,9 +1,10 @@
 from datetime import datetime
 import pprint
 from data.Data import get_electric_demand, get_solar_data, get_wind_data, get_wind_data, get_wind_data_10m, get_wind_data_50m
+from util.Formula import roughness_formula, wind_height
 
 if __name__ == "__main__":
-    print('Solar')
+    """ print('Solar')
     pprint.pprint(get_solar_data(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2)))
     print('Wind')
     pprint.pprint(get_wind_data(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2)))
@@ -12,4 +13,17 @@ if __name__ == "__main__":
     print("Wind Speed 10m")
     pprint.pprint(get_wind_data_10m(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2)))
     print("Wind Speed 50m")
-    pprint.pprint(get_wind_data_50m(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2)))
+    pprint.pprint(get_wind_data_50m(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2))) """
+
+    windData10m = get_wind_data_10m(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2))
+    windData50m = get_wind_data_50m(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2))
+
+    wind10m = windData10m[datetime(2007, 3, 1)]
+    wind50m = windData50m[datetime(2007, 3, 1)]
+
+    print(wind10m)
+    print(wind50m)
+
+    rough = roughness_formula(wind10m, wind50m)
+    print(rough)
+    wind = wind_height(wind50m, rough)
