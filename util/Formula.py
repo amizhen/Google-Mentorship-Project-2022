@@ -41,7 +41,7 @@ def roughness_formula(speed_10: float, speed_50: float):
     return (10 ** speed_50 / 50 ** speed_10) ** (1.0 / (speed_50 - speed_10))
 
 
-def get_wind_power(radius: float, wind_velocity: float, efficiency = 0.5, air_density=1.2041) -> float:
+def get_wind_power(radius: float, wind_velocity: float, efficiency = 0.4, air_density=1.2041) -> float:
     """
     Function to calculate the power (joules per second) produced by a wind turbine
 
@@ -52,13 +52,15 @@ def get_wind_power(radius: float, wind_velocity: float, efficiency = 0.5, air_de
         radius : The length of the wind turbine in m
         wind_velocity : The velocity of the wind in m/s
         efficiency : 
-            The efficency of the wind turbines. The theoretical max is 16/27 according to Betz's limit
+            The efficency of the wind turbines. The theoretical max is 16/27 according to Betz's limit,
+            however in practice it is between 35-45.
 
     Returns:
-        The power (J/s) (Watts) produced by the wind turbine
+        The power (J/s) (Watts) produced by the wind turbine, with an aditional coefficant of 0.6 to account for
+        mechanical losses.
     """
 
-    return 0.5 * air_density * radius ** 2 * math.pi * wind_velocity ** 3 * efficiency
+    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6
 
 
 def get_solar_power(irradiance: float, efficiency: float = 0.15) -> float:
