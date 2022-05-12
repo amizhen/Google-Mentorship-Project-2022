@@ -1,12 +1,8 @@
 from argparse import ArgumentError
 from datetime import datetime, timedelta
-from typing import Mapping, Union
+import functools
 
 import requests
-import h5pyd
-import pandas as pd
-
-from util.WTKUtil import WTK_idx
 
 regions = {
     "California": "CAL",
@@ -29,20 +25,7 @@ regions = {
 with open("key.txt", "r") as file:
     API_KEY = file.read(40)
 
-# So it only opens onces
-WTK = h5pyd.File("/nrel/wtk-us.h5", "r", endpoint="https://developer.nrel.gov/api/hsds", api_key=API_KEY)
-
-
-def get_solar_data(lat: float, lon: float, start: datetime, end: datetime):
-    end = end - timedelta(days=1);
-    response = requests.get(
-        f"https://power.larc.nasa.gov/api/temporal/hourly/point?start={start.strftime('%Y%m%d')}&end={end.strftime('%Y%m%d')}&latitude={lat}&longitude={lon}&community=re&parameters=ALLSKY_SFC_LW_DWN&format=json&header=false&time-standard=utc")
-    if response.status_code == 200:
-        data = response.json()["properties"]["parameter"]["ALLSKY_SFC_LW_DWN"]
-        return {datetime.strptime(datum, "%Y%m%d%H"): data[datum] for datum in data}
-    else:
-        raise ValueError()
-
+@functools.lru_cache(maxsize=3)
 def get_wind_data_10m(lat: float, lon: float, start: datetime, end: datetime):
     end = end - timedelta(days=1);
     response = requests.get(
@@ -53,6 +36,7 @@ def get_wind_data_10m(lat: float, lon: float, start: datetime, end: datetime):
     else:
         raise ValueError()
 
+@functools.lru_cache(maxsize=3)
 def get_wind_data_50m(lat: float, lon: float, start: datetime, end: datetime):
     end = end - timedelta(days=1);
     response = requests.get(
@@ -63,7 +47,11 @@ def get_wind_data_50m(lat: float, lon: float, start: datetime, end: datetime):
     else:
         raise ValueError()
 
+@functools.lru_cache(maxsize=3)
+def _get_electric_data(state : str):
+    return requests.get(f"https://api.eia.gov/series/?api_key={API_KEY}&series_id=EBA.{regions[state]}-ALL.D.H")
 
+@functools.lru_cache(maxsize=3)
 def get_electric_demand(state: str, start: datetime, end: datetime):
     """
     A function that retrieves electric demands of states. 
@@ -80,20 +68,27 @@ def get_electric_demand(state: str, start: datetime, end: datetime):
     if end < start:
         raise ArgumentError(message="end_year must be greater or equal to than start_year")
 
-    response = requests.get(f"https://api.eia.gov/series/?api_key={API_KEY}&series_id=EBA.{regions[state]}-ALL.D.H")
+    response = _get_electric_data(state)
     if (response.status_code == 200):
         data = response.json()
+
         return {datetime.strptime(datum[0], "%Y%m%dT%HZ"): datum[1] for datum in data["series"][0]["data"] if
                 start <= datetime.strptime(datum[0], "%Y%m%dT%HZ") < end}
     else:
         raise ValueError(f"Request Failed {response.status_code}")
 
+@functools.lru_cache(maxsize=3)
+def get_solar_data(lat : float, lon : float, start : datetime, end : datetime):
+    end -= timedelta(days=1) # api end is inclusive
+    response = requests.get(
+        f"https://power.larc.nasa.gov/api/temporal/hourly/point?start={start.strftime('%Y%m%d')}&end={end.strftime('%Y%m%d')}&latitude={lat}&longitude={lon}&community=sb&parameters=SZA%2CCLRSKY_SFC_SW_DNI%2CCLRSKY_SFC_SW_DIFF&format=json&header=false&time-standard=utc"
+    )
 
-def get_wind_data(lat: float, lon: float, start: datetime, end: datetime):
-    wtk_ij = WTK_idx(WTK, (lat, lon))
-
-    epoch = datetime(2007, 1, 1)
-    hr = timedelta(hours=1)
-    print(int((start - epoch) / hr))
-    ds = WTK["windspeed_80m"][int((start - epoch) / hr):int((end - epoch) / hr):1, wtk_ij[0], wtk_ij[1]]
-    return {(start + hr * i): ds[i] for i in range(len(ds))}
+    if response.status_code == 200:
+        json = response.json()["properties"]["parameter"]
+        data = {}
+        for parameter in json:
+            data[parameter] = {}
+            data[parameter] = {datetime.strptime(datum, "%Y%m%d%H") : max(json[parameter][datum], 0) for datum in json[parameter]}
+        return data
+    return

@@ -1,6 +1,5 @@
 import math
 
-
 def wind_height(speed_50: float, roughness: float, target=80.0):
     '''
     :param speed_50: Wind speed at 50 meters
@@ -78,6 +77,9 @@ def get_solar_power(irradiance: float, efficiency: float = 0.15) -> float:
     """
     #The 0.75 is to account for dirt, shade, etc
     return irradiance * efficiency * 0.75
+
+def get_ghi(zenith : float, dni : float, dhi : float):
+    return math.cos(math.radians(zenith)) *  dni + dhi
 
 
 if __name__ == "__main__":
