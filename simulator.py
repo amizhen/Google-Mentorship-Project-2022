@@ -1,8 +1,8 @@
 from data.Data import get_solar_data, get_wind_data, get_electric_demand
 from power_system import PowerSys
-from datetime import date
+from datetime import datetime
 
-def test(sys : PowerSys, loc : str, start : date, end : date) -> None:
+def run(sys : PowerSys, loc : str, start : datetime, end : datetime) -> None:
     """
     :param sys: Takes a power setup
     :param loc: Takes a location
@@ -16,9 +16,9 @@ def test(sys : PowerSys, loc : str, start : date, end : date) -> None:
     lat = 42.355978782625336
     lon = -74.9824086324889
 
-    # wind_data = get_wind_data(lat, lon, start, end)
-    # solar_data = get_solar_data(lat, lon, start, end)
-    # demand = get_electric_demand(loc, )
+    wind_data = get_wind_data(lat, lon, start, end)
+    solar_data = get_solar_data(lat, lon, start, end)
+    demand = get_electric_demand(loc, )
 
     return
 
