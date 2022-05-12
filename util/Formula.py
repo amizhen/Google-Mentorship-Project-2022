@@ -19,7 +19,7 @@ def find_roughness(speeds_10: dict, speeds_50: dict):
     :param speeds_10: however much of hourly speed data at 10 meters
     :param speeds_50: however much of hourly speed data at 50 meters.
     It is assumed that both data sets start at the same date.
-    :return: The average calculated rougness
+    :return: The average calculated roughness
     See for more details and formula:
     https://wind-data.ch/tools/profile.php?h=10&v=5&z0=0.03&abfrage=To+update
     '''
@@ -57,14 +57,14 @@ def get_wind_power(radius: float, wind_velocity: float, efficiency = 0.4, air_de
             however in practice it is between 35-45.
 
     Returns:
-        The power (J/s) (Watts) produced by the wind turbine, with an aditional coefficant of 0.6 to account for
+        The power (Megawatt hours) produced by the wind turbine, with an aditional coefficant of 0.6 to account for
         mechanical losses.
     """
 
-    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6
+    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6 * ( 1 / 10 ** 6 * 60 * 60)
 
 
-def get_solar_power(irradiance: float, efficiency: float = 0.15) -> float:
+def get_solar_power(GHI: float, efficiency: float = 0.15) -> float:
     """
     Function to calculate the power (joules per second) produced by solar panels per square meter
 
@@ -75,13 +75,13 @@ def get_solar_power(irradiance: float, efficiency: float = 0.15) -> float:
         efficiency : efficiency of solar panel. Range is usually between 15% to 18%
 
     Returns:
-        The power (J/s) produced by the solar panel
+        The power (megawatt hours) produced by the solar panel
     """
     #The 0.75 is to account for dirt, shade, etc
-    return irradiance * efficiency * 0.75
+    return GHI * efficiency * 0.75 * ( 1 / 10 ** 6 * 60 * 60)
 
 def get_ghi(zenith : float, dni : float, dhi : float):
-    return math.cos(math.radians(zenith)) *  dni + dhi
+    return math.cos(math.radians(zenith)) * dni + dhi
 
 
 def convert_to_ghi_data(data : Mapping[str, Mapping[datetime, float]]) -> Mapping[datetime, float]:
