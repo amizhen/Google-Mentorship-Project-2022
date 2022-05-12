@@ -41,7 +41,7 @@ def roughness_formula(speed_10: float, speed_50: float):
     return (10 ** speed_50 / 50 ** speed_10) ** (1.0 / (speed_50 - speed_10))
 
 
-def get_wind_power(air_density: float, radius: float, wind_velocity: float, efficiency: float) -> float:
+def get_wind_power(radius: float, wind_velocity: float, efficiency = 0.5, air_density=1.2041) -> float:
     """
     Function to calculate the power (joules per second) produced by a wind turbine
 
@@ -61,9 +61,9 @@ def get_wind_power(air_density: float, radius: float, wind_velocity: float, effi
     return 0.5 * air_density * radius ** 2 * math.pi * wind_velocity ** 3 * efficiency
 
 
-def get_solar_power(irradiance: float, panel_area: float, efficiency: float = 0.15) -> float:
+def get_solar_power(irradiance: float, efficiency: float = 0.15) -> float:
     """
-    Function to calculate the power (joules per second) produced by solar panels
+    Function to calculate the power (joules per second) produced by solar panels per square meter
 
     Args:
         irradiance : The irradiance (W/m^2)
@@ -74,8 +74,8 @@ def get_solar_power(irradiance: float, panel_area: float, efficiency: float = 0.
     Returns:
         The power (J/s) produced by the solar panel
     """
-
-    return irradiance * panel_area * efficiency
+    #The 0.75 is to account for dirt, shade, etc
+    return irradiance * efficiency * 0.75
 
 
 if __name__ == "__main__":
