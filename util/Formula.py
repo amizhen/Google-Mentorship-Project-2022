@@ -1,4 +1,6 @@
+from datetime import datetime
 import math
+from typing import Mapping
 
 def wind_height(speed_50: float, roughness: float, target=80.0):
     '''
@@ -81,6 +83,16 @@ def get_solar_power(irradiance: float, efficiency: float = 0.15) -> float:
 def get_ghi(zenith : float, dni : float, dhi : float):
     return math.cos(math.radians(zenith)) *  dni + dhi
 
+
+def convert_to_ghi_data(data : Mapping[str, Mapping[datetime, float]]) -> Mapping[datetime, float]:
+    try:
+        converted = {}
+        for key in data["SZA"]:
+            converted |= {key : get_ghi(data["SZA"][key], data["CLRSKY_SFC_SW_DNI"][key], data["CLRSKY_SFC_SW_DIFF"][key])}
+
+        return converted
+    except:
+        raise ValueError("Incorrectly formatted Mapping - Should be from get_solar_data func")
 
 if __name__ == "__main__":
     # print(get_solar_power(200, 10, 10))
