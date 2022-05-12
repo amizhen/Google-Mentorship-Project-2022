@@ -18,7 +18,6 @@ def run(sys : PowerSys, loc : str, start : datetime, end : datetime) -> None:
 
     wind_data = get_wind_data(lat, lon, start, end)
     solar_data = get_solar_data(lat, lon, start, end)
-    demand = get_electric_demand(loc, )
+    demand = get_electric_demand(loc, start, end)
 
-    return
 
