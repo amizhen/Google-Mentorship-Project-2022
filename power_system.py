@@ -35,7 +35,7 @@ class PowerSys:
 
 
 
-    def fitness(self):
+    def calc_fitness(self):
         hours_blackout = 0
         total_gap = 0.0
         total_waste = 0.0
@@ -43,12 +43,11 @@ class PowerSys:
             if self.storage_history[time] < 0:
                 total_gap += self.storage_history[time]
                 hours_blackout += 1
+                self.fitness -= self.storage_history[time] / 100 # Weights for fitness should be changed
+                self.fitness -= 1 # Weights for fitness should be changed
             else:
                 total_waste += self.waste_history[time]
-
-
-
-        return
+                self.fitness -= self.waste_history[time] / 1000 # Weights for fitness should be changed
 
 
     def __str__(self):

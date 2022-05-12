@@ -27,7 +27,7 @@ with open("key.txt", "r") as file:
 
 @functools.lru_cache(maxsize=3)
 def get_wind_data_10m(lat: float, lon: float, start: datetime, end: datetime):
-    end = end - timedelta(days=1);
+    end = end - timedelta(days=1)
     response = requests.get(
         f"https://power.larc.nasa.gov/api/temporal/hourly/point?start={start.strftime('%Y%m%d')}&end={end.strftime('%Y%m%d')}&latitude={lat}&longitude={lon}&community=re&parameters=WS10M&format=json&header=false&time-standard=utc")
     if response.status_code == 200:
@@ -38,7 +38,7 @@ def get_wind_data_10m(lat: float, lon: float, start: datetime, end: datetime):
 
 @functools.lru_cache(maxsize=3)
 def get_wind_data_50m(lat: float, lon: float, start: datetime, end: datetime):
-    end = end - timedelta(days=1);
+    end = end - timedelta(days=1)
     response = requests.get(
         f"https://power.larc.nasa.gov/api/temporal/hourly/point?start={start.strftime('%Y%m%d')}&end={end.strftime('%Y%m%d')}&latitude={lat}&longitude={lon}&community=re&parameters=WS50M&format=json&header=false&time-standard=utc")
     if response.status_code == 200:
@@ -62,7 +62,7 @@ def get_electric_demand(state: str, start: datetime, end: datetime):
         end : the end datetime exclusive
 
     Returns:
-        A mapping of the datetime to the energy consumption
+        A mapping of the datetime to the energy consumption in megawatthours
     """
 
     if end < start:
