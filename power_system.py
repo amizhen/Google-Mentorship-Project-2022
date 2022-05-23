@@ -1,13 +1,12 @@
 from util.Formula import get_wind_power, get_solar_power
 from datetime import datetime
 class PowerSys:
-    def __init__(self, amt_solar, amt_wind, amt_storage):
+    def __int__(self, region, amt_storage):
+        self.fitness = 0
         self.storage_cap = amt_storage
         self.stored = amt_storage
-        self.wind = amt_wind
-        self.solar = amt_solar
-        self.fitness = 0
-
+        self.windPlants = []
+        self.solarPlants = []
 
         # Data for fitness functions
         self.net_history = {} # Chart of time vs net_generated
@@ -19,21 +18,17 @@ class PowerSys:
         self.waste_history = {} # Chart of time vs excess generated power that could not be stored.
         # format = time:waste
 
-
-
-    def hour_tick(self, wind_power : float, solar_power : float, demand : float, time : datetime):
-        net_energy = wind_power * self.wind + solar_power * self.solar - demand
-
-        self.waste_history[time] = max(0,  self.stored + net_energy - self.storage_cap)
-        self.net_history[time] = net_energy
-
-        self.stored = min(self.storage_cap, self.stored+net_energy)
-
-        self.storage_history[time] = self.stored
-
-        self.stored = max(self.stored, 0)
-
-
+    # def hour_tick(self, wind_power : float, solar_power : float, demand : float, time : datetime):
+    #     net_energy = wind_power * self.wind + solar_power * self.solar - demand
+    #
+    #     self.waste_history[time] = max(0,  self.stored + net_energy - self.storage_cap)
+    #     self.net_history[time] = net_energy
+    #
+    #     self.stored = min(self.storage_cap, self.stored+net_energy)
+    #
+    #     self.storage_history[time] = self.stored
+    #
+    #     self.stored = max(self.stored, 0)
 
     def calc_fitness(self):
         hours_blackout = 0
@@ -48,10 +43,6 @@ class PowerSys:
             else:
                 total_waste += self.waste_history[time]
                 self.fitness -= self.waste_history[time] / 1000 # Weights for fitness should be changed
-
-
-    def __str__(self):
-        return f'({self.solar}, {self.wind}, {self.storage_cap}'
 
     # Makes PowerSys sortable by the fitness score
 
@@ -73,7 +64,39 @@ class PowerSys:
     def __le__(self, other : 'PowerSys'):
         return other.__ge__(self)
 
+class PowerPlant:
+    def __init__(self, location, amount, mode = None):
+        self.loc = location
+        self.amt = amount
+        self.data = self.fetch_data()
+        self.mode = mode
+
+    def tick(self):
+        return NotImplemented
+
+    def fetch_data(self):
+        return NotImplemented
+
+    def __str__(self):
+        return f'Type: {self.mode}, Amount: {self.amt} ' \
+               f'{"m^2" if self.mode == "solar" else "turbines" if self.mode == "wind" else ""} {self.loc}'
+
+
+class WindPlant(PowerPlant):
+    def __init__(self, location, amount):
+        super().__init__(location, amount, mode = 'wind')
+    def fetch_data(self):
+        # API call to get relevent wind data
+
+
+class SolarPlant(PowerPlant):
+    def __init__(self, location, amount):
+        super().__init__(location, amount, mode = 'solar')
+    def fetch_data(self):
+        # API call to get relevent solar data
+
+
 if __name__ == '__main__':
-    a = PowerSys(1, 2, 3)
-    print(a)
-    print(a.stored)
+    # a = PowerSys(1, 2, 3)
+    # print(a)
+    # print(a.stored)
