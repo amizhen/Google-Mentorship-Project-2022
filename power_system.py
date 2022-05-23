@@ -1,5 +1,7 @@
 from util.Formula import get_wind_power, get_solar_power
 from datetime import datetime
+
+
 class PowerSys:
     def __int__(self, region, amt_storage):
         self.fitness = 0
@@ -7,16 +9,21 @@ class PowerSys:
         self.stored = amt_storage
         self.windPlants = []
         self.solarPlants = []
+        self.data = self.
 
         # Data for fitness functions
-        self.net_history = {} # Chart of time vs net_generated
+        self.net_history = {}  # Chart of time vs net_generated
         # format = time:net
         self.storage_history = {}  # Chart of time vs amt of power in storage, shows deficit for the hour if negative
         # format = time:storage
         self.gen_history = {}  # Chart of time vs power generated at that time
         # format = time:(wind, solar)
-        self.waste_history = {} # Chart of time vs excess generated power that could not be stored.
+        self.waste_history = {}  # Chart of time vs excess generated power that could not be stored.
         # format = time:waste
+
+    def get_data(self):
+
+    # API call for usage data
 
     # def hour_tick(self, wind_power : float, solar_power : float, demand : float, time : datetime):
     #     net_energy = wind_power * self.wind + solar_power * self.solar - demand
@@ -38,34 +45,35 @@ class PowerSys:
             if self.storage_history[time] < 0:
                 total_gap += self.storage_history[time]
                 hours_blackout += 1
-                self.fitness -= self.storage_history[time] / 100 # Weights for fitness should be changed
-                self.fitness -= 1 # Weights for fitness should be changed
+                self.fitness -= self.storage_history[time] / 100  # Weights for fitness should be changed
+                self.fitness -= 1  # Weights for fitness should be changed
             else:
                 total_waste += self.waste_history[time]
-                self.fitness -= self.waste_history[time] / 1000 # Weights for fitness should be changed
+                self.fitness -= self.waste_history[time] / 1000  # Weights for fitness should be changed
 
     # Makes PowerSys sortable by the fitness score
 
-    def __eq__(self, other : 'PowerSys'):
+    def __eq__(self, other: 'PowerSys'):
         return self.fitness == other.fitness
 
-    def __lt__(self, other : 'PowerSys'):
+    def __lt__(self, other: 'PowerSys'):
         return self.fitness < other.fitness
 
-    def __ne__(self, other : 'PowerSys'):
+    def __ne__(self, other: 'PowerSys'):
         return not self.__eq__(other)
 
-    def __gt__(self, other : 'PowerSys'):
+    def __gt__(self, other: 'PowerSys'):
         return other.__lt__(other)
 
-    def __ge__(self, other : 'PowerSys'):
+    def __ge__(self, other: 'PowerSys'):
         return not self.__lt__(other)
 
-    def __le__(self, other : 'PowerSys'):
+    def __le__(self, other: 'PowerSys'):
         return other.__ge__(self)
 
+
 class PowerPlant:
-    def __init__(self, location, amount, mode = None):
+    def __init__(self, location, amount, mode=None):
         self.loc = location
         self.amt = amount
         self.data = self.fetch_data()
@@ -84,19 +92,21 @@ class PowerPlant:
 
 class WindPlant(PowerPlant):
     def __init__(self, location, amount):
-        super().__init__(location, amount, mode = 'wind')
+        super().__init__(location, amount, mode='wind')
+
     def fetch_data(self):
-        # API call to get relevent wind data
+# API call to get relevent wind data
 
 
 class SolarPlant(PowerPlant):
     def __init__(self, location, amount):
-        super().__init__(location, amount, mode = 'solar')
+        super().__init__(location, amount, mode='solar')
+
     def fetch_data(self):
-        # API call to get relevent solar data
+# API call to get relevent solar data
 
 
 if __name__ == '__main__':
-    # a = PowerSys(1, 2, 3)
-    # print(a)
-    # print(a.stored)
+# a = PowerSys(1, 2, 3)
+# print(a)
+# print(a.stored)
