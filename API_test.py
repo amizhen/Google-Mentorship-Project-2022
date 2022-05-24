@@ -16,12 +16,12 @@ if __name__ == "__main__":
     print("Wind Speed 50m")
     pprint.pprint(get_wind_data_50m(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2))) """
     #
-    # print('Solar')
+    print('Solar')
     solar_data = get_solar_data(42.355978782625336, -74.9824086324889, datetime(2007, 3, 1), datetime(2007, 3, 2))
-    # # pprint.pprint(solar_data)
+    # pprint.pprint(solar_data)
     print()
     ghi = convert_to_ghi_data(solar_data)
     pprint.pprint(ghi)
 
-    #from combined_data import get_wind, calc_wind_power
+    # from combined_data import get_wind, calc_wind_power
     # print(get_wind(datetime(2007, 3, 1), datetime(2007, 3, 2), 42.355978782625336, -74.9824086324889, 40))

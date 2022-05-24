@@ -87,14 +87,14 @@ def get_ghi(zenith : float, dni : float, dhi : float):
 
 
 def convert_to_ghi_data(data : Mapping[str, Mapping[datetime, float]]) -> Mapping[datetime, float]:
-    try:
-        converted = {}
-        for key in data["SZA"]:
-            converted |= {key : get_ghi(data["SZA"][key], data["CLRSKY_SFC_SW_DNI"][key], data["CLRSKY_SFC_SW_DIFF"][key])}
+    # try:
+    converted = {}
+    for key in data["SZA"]:
+        converted.update({key : get_ghi(data["SZA"][key], data["CLRSKY_SFC_SW_DNI"][key], data["CLRSKY_SFC_SW_DIFF"][key])})
 
-        return converted
-    except:
-        raise ValueError("Incorrectly formatted Mapping - Should be from get_solar_data func")
+    return converted
+    # except:
+    #     raise ValueError("Incorrectly formatted Mapping - Should be from get_solar_data func")
 
 if __name__ == "__main__":
     # print(get_solar_power(200, 10, 10))
