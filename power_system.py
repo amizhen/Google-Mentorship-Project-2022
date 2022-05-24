@@ -1,4 +1,4 @@
-from util.Formula import get_wind_power, get_solar_power
+from util.Formula import *
 from datetime import datetime
 
 
@@ -9,7 +9,7 @@ class PowerSys:
         self.stored = amt_storage
         self.windPlants = []
         self.solarPlants = []
-        self.data = self.
+        self.data = self.get_data()
 
         # Data for fitness functions
         self.net_history = {}  # Chart of time vs net_generated
@@ -22,8 +22,7 @@ class PowerSys:
         # format = time:waste
 
     def get_data(self):
-
-    # API call for usage data
+        # API call for usage data
 
     # def hour_tick(self, wind_power : float, solar_power : float, demand : float, time : datetime):
     #     net_energy = wind_power * self.wind + solar_power * self.solar - demand
@@ -79,10 +78,13 @@ class PowerPlant:
         self.data = self.fetch_data()
         self.mode = mode
 
-    def tick(self):
-        return NotImplemented
+    def tick(self, time):
+        return self.processData(time)
 
     def fetch_data(self):
+        return NotImplemented
+
+    def processData(self, time):
         return NotImplemented
 
     def __str__(self):
@@ -94,8 +96,14 @@ class WindPlant(PowerPlant):
     def __init__(self, location, amount):
         super().__init__(location, amount, mode='wind')
 
+
     def fetch_data(self):
-# API call to get relevent wind data
+        # API call to get relevent wind data
+
+
+    def processData(self, time):
+
+
 
 
 class SolarPlant(PowerPlant):
@@ -103,7 +111,8 @@ class SolarPlant(PowerPlant):
         super().__init__(location, amount, mode='solar')
 
     def fetch_data(self):
-# API call to get relevent solar data
+        # API call to get relevent solar data
+
 
 
 if __name__ == '__main__':

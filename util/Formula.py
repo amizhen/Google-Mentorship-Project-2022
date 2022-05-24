@@ -2,6 +2,14 @@ from datetime import datetime
 import math
 from typing import Mapping
 
+
+def get_wind_power():
+    #Unified fuction for fetching wind data
+
+def get_solar_power():
+    #Unified function for getting solar data
+
+
 def wind_height(speed_50: float, roughness: float, target=80.0):
     '''
     :param speed_50: Wind speed at 50 meters
@@ -42,7 +50,7 @@ def roughness_formula(speed_10: float, speed_50: float):
     return (10 ** speed_50 / 50 ** speed_10) ** (1.0 / (speed_50 - speed_10))
 
 
-def get_wind_power(radius: float, wind_velocity: float, efficiency = 0.4, air_density=1.2041) -> float:
+def calc_wind_power(radius: float, wind_velocity: float, efficiency = 0.4, air_density=1.2041) -> float:
     """
     Function to calculate the power (joules per second) produced by a wind turbine
 
@@ -64,7 +72,7 @@ def get_wind_power(radius: float, wind_velocity: float, efficiency = 0.4, air_de
     return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6 * ( 1 / 10 ** 6 * 60 * 60)
 
 
-def get_solar_power(GHI: float, efficiency: float = 0.15) -> float:
+def calc_solar_power(GHI: float, efficiency: float = 0.15) -> float:
     """
     Function to calculate the power (joules per second) produced by solar panels per square meter
 
