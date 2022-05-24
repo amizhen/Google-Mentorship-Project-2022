@@ -3,14 +3,8 @@ import math
 from typing import Mapping
 
 
-def get_wind_power():
-    #Unified fuction for fetching wind data
 
-def get_solar_power():
-    #Unified function for getting solar data
-
-
-def wind_height(speed_50: float, roughness: float, target=80.0):
+def calc_higher_speed(speed_50: float, roughness: float, target=80.0):
     '''
     :param speed_50: Wind speed at 50 meters
     :param roughness: Surface roughness
@@ -69,7 +63,7 @@ def calc_wind_power(radius: float, wind_velocity: float, efficiency = 0.4, air_d
         mechanical losses.
     """
 
-    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6 * ( 1 / 10 ** 6 * 60 * 60)
+    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6 * ( 1 / (10 ** 6))
 
 
 def calc_solar_power(GHI: float, efficiency: float = 0.15) -> float:
@@ -86,7 +80,7 @@ def calc_solar_power(GHI: float, efficiency: float = 0.15) -> float:
         The power (megawatt hours) produced by the solar panel
     """
     #The 0.75 is to account for dirt, shade, etc
-    return GHI * efficiency * 0.75 * ( 1 / 10 ** 6 * 60 * 60)
+    return GHI * efficiency * 0.75 * ( 1 /( 10 ** 6 ))
 
 def get_ghi(zenith : float, dni : float, dhi : float):
     return math.cos(math.radians(zenith)) * dni + dhi
