@@ -1,5 +1,6 @@
 from util.Formula import get_wind_power, get_solar_power
 from datetime import datetime
+
 class PowerSys:
     def __init__(self, amt_solar, amt_wind, amt_storage):
         self.storage_cap = amt_storage
