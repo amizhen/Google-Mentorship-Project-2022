@@ -1,7 +1,6 @@
 from util.Formula import *
 from datetime import datetime
 
-
 class PowerSys:
     def __int__(self, region, amt_storage):
         self.fitness = 0

@@ -93,6 +93,7 @@ def get_solar_data(lat : float, lon : float, start : datetime, end : datetime):
             data[parameter] = {datetime.strptime(datum, "%Y%m%d%H") : max(json[parameter][datum], 0) for datum in json[parameter]}
         return data
     return
+    
 @functools.lru_cache(maxsize=3)
 def zipcode_to_region(zipcode: str):
     with open('csv/2010zipcodes.csv', 'r') as zips:
