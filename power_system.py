@@ -1,5 +1,6 @@
-from util.Formula import *
 from datetime import datetime
+from combined_data import *
+
 
 class PowerSys:
     def __int__(self, region, amt_storage):
@@ -21,6 +22,7 @@ class PowerSys:
         # format = time:waste
 
     def get_data(self):
+        return NotImplemented
         # API call for usage data
 
     # def hour_tick(self, wind_power : float, solar_power : float, demand : float, time : datetime):
@@ -71,11 +73,13 @@ class PowerSys:
 
 
 class PowerPlant:
-    def __init__(self, location, amount, mode=None):
+    def __init__(self, location, amount, start, end, mode=None):
         self.loc = location
         self.amt = amount
-        self.data = self.fetch_data()
         self.mode = mode
+        self.start = start
+        self.end = end
+        self.data = self.fetch_data()
 
     def tick(self, time):
         return self.processData(time)
@@ -84,37 +88,32 @@ class PowerPlant:
         return NotImplemented
 
     def processData(self, time):
-        return NotImplemented
+        return self.data[time] * self.amt
 
     def __str__(self):
-        return f'Type: {self.mode}, Amount: {self.amt} ' \
-               f'{"m^2" if self.mode == "solar" else "turbines" if self.mode == "wind" else ""} {self.loc}'
+        return NotImplemented
 
 
 class WindPlant(PowerPlant):
-    def __init__(self, location, amount):
-        super().__init__(location, amount, mode='wind')
-
+    def __init__(self, location, amount, start, end, radius=35, height=80):
+        super().__init__(location, amount, start, end, mode='wind')
+        self.radius = radius
+        self.height = height
 
     def fetch_data(self):
-        # API call to get relevent wind data
-
-
-    def processData(self, time):
-
-
+        return get_wind(self.start, self.end, self.loc[0], self.loc[1], self.radius, self.height)
 
 
 class SolarPlant(PowerPlant):
-    def __init__(self, location, amount):
-        super().__init__(location, amount, mode='solar')
+    def __init__(self, location, amount, start, end, efficiency=0.15):
+        super().__init__(location, amount, start, end, mode='solar')
+        self.efficiency = efficiency
 
     def fetch_data(self):
-        # API call to get relevent solar data
+        return get_solar(self.start, self.end, self.loc[0], self.loc[1], self.efficiency)
 
 
-
-if __name__ == '__main__':
-# a = PowerSys(1, 2, 3)
-# print(a)
-# print(a.stored)
+# if __name__ == '__main__':
+    # a = PowerSys(1, 2, 3)
+    # print(a)
+    # print(a.stored)
