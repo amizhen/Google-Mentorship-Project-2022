@@ -1,15 +1,16 @@
 from datetime import datetime
-from combined_data import *
-
+from PowerPlant import WindPlant, SolarPlant
 
 class PowerSys:
-    def __int__(self, region, amt_storage):
+    def __int__(self, region: str, amt_storage: float, start: datetime, end: datetime):
         self.fitness = 0
         self.storage_cap = amt_storage
         self.stored = amt_storage
         self.wind_plants = []
         self.solar_plants = []
         self.demand = self.get_data()
+        self.start = start
+        self.end = end
 
         # Data for fitness functions
         self.net_history = {}  # Chart of time vs net_generated
@@ -21,11 +22,20 @@ class PowerSys:
         self.waste_history = {}  # Chart of time vs excess generated power that could not be stored.
         # format = time:waste
 
+
+    def add_wind(self, loc: tuple[float, float], amt: int, radius: float = 35.0, height: float = 80):
+        self.wind_plants.append(WindPlant(loc, amt, self.start, self.end, radius=radius, height=height))
+
+    
+    def add_solar(self, loc: tuple[float, float], amt: float, efficancy: float = 0.15):
+        self.solar_plants.append(SolarPlant(loc, amt, self.start, self.end, efficiency=efficancy))
+
+
     def get_data(self):
         return NotImplemented
         # API call for usage data
 
-    def tick(self, time):
+    def tick(self, time: datetime):
         self.gen_history[time] = (0, 0)
 
         net = -1 * self.demand[time]
@@ -84,48 +94,5 @@ class PowerSys:
         return other.__ge__(self)
 
 
-class PowerPlant:
-    def __init__(self, location, amount, start, end, mode=None):
-        self.loc = location
-        self.amt = amount
-        self.mode = mode
-        self.start = start
-        self.end = end
-        self.data = self.fetch_data()
-
-    def tick(self, time):
-        return self.processData(time)
-
-    def fetch_data(self):
-        return NotImplemented
-
-    def processData(self, time):
-        return self.data[time] * self.amt
-
-    def __str__(self):
-        return f'{self.amt}, {self.mode} at {self.loc}'
-
-
-class WindPlant(PowerPlant):
-    def __init__(self, location, amount, start, end, radius=35, height=80):
-        super().__init__(location, amount, start, end, mode='wind')
-        self.radius = radius
-        self.height = height
-
-    def fetch_data(self):
-        return get_wind(self.start, self.end, self.loc[0], self.loc[1], self.radius, self.height)
-
-
-class SolarPlant(PowerPlant):
-    def __init__(self, location, amount, start, end, efficiency=0.15):
-        super().__init__(location, amount, start, end, mode='solar')
-        self.efficiency = efficiency
-
-    def fetch_data(self):
-        return get_solar(self.start, self.end, self.loc[0], self.loc[1], self.efficiency)
-
-
-# if __name__ == '__main__':
-    # a = PowerSys(1, 2, 3)
-    # print(a)
-    # print(a.stored)
+if __name__ == '__main__':
+    pass
