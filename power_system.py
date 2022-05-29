@@ -7,9 +7,9 @@ class PowerSys:
         self.fitness = 0
         self.storage_cap = amt_storage
         self.stored = amt_storage
-        self.windPlants = []
-        self.solarPlants = []
-        self.data = self.get_data()
+        self.wind_plants = []
+        self.solar_plants = []
+        self.demand = self.get_data()
 
         # Data for fitness functions
         self.net_history = {}  # Chart of time vs net_generated
@@ -25,17 +25,29 @@ class PowerSys:
         return NotImplemented
         # API call for usage data
 
-    # def hour_tick(self, wind_power : float, solar_power : float, demand : float, time : datetime):
-    #     net_energy = wind_power * self.wind + solar_power * self.solar - demand
-    #
-    #     self.waste_history[time] = max(0,  self.stored + net_energy - self.storage_cap)
-    #     self.net_history[time] = net_energy
-    #
-    #     self.stored = min(self.storage_cap, self.stored+net_energy)
-    #
-    #     self.storage_history[time] = self.stored
-    #
-    #     self.stored = max(self.stored, 0)
+    def tick(self, time):
+        self.gen_history[time] = (0, 0)
+
+        net = -1 * self.demand[time]
+        for turbine in self.wind_plants:
+            net += turbine.tick(time)
+            self.gen_history[time][0] += turbine.tick(time)
+        for solar in self.solar_plants:
+            net += solar.tick(time)
+            self.gen_history[time][0] += solar.tick(time)
+
+        self.net_history[time] = net
+
+        if self.stored + net > self.storage_cap:
+            self.waste_history[time] = self.stored + net - self.storage_cap
+
+        if self.stored + net < 0:
+            self.storage_history[time] = self.stored + net
+            self.stored = 0
+        else:
+            self.stored += net
+            self.storage_history[time] = self.stored
+
 
     def calc_fitness(self):
         hours_blackout = 0
@@ -91,7 +103,7 @@ class PowerPlant:
         return self.data[time] * self.amt
 
     def __str__(self):
-        return NotImplemented
+        return f'{self.amt}, {self.mode} at {self.loc}'
 
 
 class WindPlant(PowerPlant):
