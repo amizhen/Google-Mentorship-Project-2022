@@ -1,5 +1,5 @@
 from datetime import datetime
-from PowerPlant import WindPlant, SolarPlant
+from power_plant import WindPlant, SolarPlant
 
 class PowerSys:
     def __int__(self, region: str, amt_storage: float, start: datetime, end: datetime):
@@ -26,7 +26,7 @@ class PowerSys:
     def add_wind(self, loc: tuple[float, float], amt: int, radius: float = 35.0, height: float = 80):
         self.wind_plants.append(WindPlant(loc, amt, self.start, self.end, radius=radius, height=height))
 
-    
+
     def add_solar(self, loc: tuple[float, float], amt: float, efficancy: float = 0.15):
         self.solar_plants.append(SolarPlant(loc, amt, self.start, self.end, efficiency=efficancy))
 
@@ -34,6 +34,7 @@ class PowerSys:
     def get_data(self):
         return NotImplemented
         # API call for usage data
+
 
     def tick(self, time: datetime):
         self.gen_history[time] = (0, 0)
