@@ -12,12 +12,12 @@ class PowerPlant:
         self.data = self.fetch_data()
 
     def tick(self, time: datetime):
-        return self.processData(time)
+        return self.process_data(time)
 
     def fetch_data(self):
         return NotImplemented
 
-    def processData(self, time: datetime):
+    def process_data(self, time: datetime):
         return self.data[time] * self.amt
 
     def __str__(self):

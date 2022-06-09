@@ -1,6 +1,6 @@
 from datetime import datetime
 from util.Formula import find_roughness, calc_higher_speed, calc_wind_power, convert_to_ghi_data, calc_solar_power
-from data.Data import get_wind_data_10m, get_wind_data_50m, get_solar_data
+from data.Data import get_wind_data_10m, get_wind_data_50m, get_solar_data, get_electric_demand
 
 
 def get_wind(start, end, lon, lat, radius, height):
@@ -19,4 +19,5 @@ def get_solar(start, end, lon, lat, efficiency):
     return solar_power
 
 
-# def get_demand(start, end, )
+def get_demand(start, end, region):
+    return get_electric_demand(region, start, end)
