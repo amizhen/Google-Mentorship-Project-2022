@@ -1,4 +1,4 @@
-from combined_data import *
+from combined_data import get_solar, get_wind
 from datetime import datetime
 
 
