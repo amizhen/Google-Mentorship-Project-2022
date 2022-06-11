@@ -88,6 +88,8 @@ main {
 .powerplantSelectPopup .mapboxgl-popup-content,
 .powerplantSelectPopup .mapboxgl-popup-content-wrapper {
     background-color: var(--dark-blue) !important;
+    box-shadow: 1px 1px 2px 2px var(--dark-blue);
+    
 }
 
 .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,

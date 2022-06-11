@@ -40,7 +40,7 @@ function selectPowerPlant(lat_coord, lng_coord, endpoint, className) {
 function generatePopup(e) {
     return new mapboxgl.Popup(
         {
-            offset: 5,
+            offset: 2,
             closeButton: false,
             maxWidth: 480,
             className: "powerplantSelectPopup"
