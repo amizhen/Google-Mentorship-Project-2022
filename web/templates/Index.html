@@ -7,6 +7,7 @@
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <style>
         body {
             margin: 0;
@@ -14,15 +15,26 @@
         }
 
         #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
             width: 100%;
+            height: 400px;
         }
     </style>
 </head>
 
 <body>
+    <input id="run" type="button" value="Run" onclick="getData();" />
+    <script>
+        function getData() {
+            var url = "http://127.0.0.1:5000/api/data";
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", url, false);
+            xmlHttp.send(null);
+            console.log(xmlHttp.responseText)
+            return xmlHttp.responseText;
+        }
+
+        document.getElementById("run").onclick = getData;
+    </script>
     <div id="map"></div>
     <script>
         mapboxgl.accessToken = '{{ mapbox_access_token }}';
@@ -33,27 +45,48 @@
             zoom: 9 // starting zoom
         });
 
-        map.on('click', (e) => {
-            fetch("http://127.0.0.1:5000/dataget",
+        function selectPowerPlant(lat_coord, lng_coord, endpoint, marker_color) {
+            fetch(window.location.href + endpoint,
                 {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',
                         'Accept': 'application/json'
                     },
-                    body: JSON.stringify(e.lngLat)
+                    body: JSON.stringify({ lat: lat_coord, lng: lng_coord })
                 }).then(res => {
                     if (res.ok) {
                         return res.json()
-                    } else {
-                        alert("An unexpected error has occurred.")
-                    }
-                }).then(jsonResponse => {
-                    console.log(jsonResponse)
-                }).catch((err) => console.error(err));
+                    } else { alert("An unexpected error has occurred.") }
+                })
 
-            new mapboxgl.Marker({ color: 'black' }).setLngLat([e.lngLat.lng, e.lngLat.lat]).addTo(map);
+            new mapboxgl.Marker({ color: marker_color })
+                .setLngLat([lng_coord, lat_coord])
+                .addTo(map);
 
+            var popups = document.getElementsByClassName("mapboxgl-popup");
+            if (popups.length) {
+                popups[0].remove();
+            }
+        }
+
+        function generatePopup(e) {
+            return new mapboxgl.Popup(
+                {
+                    offset: 5,
+                    closeButton: false,
+                    maxWidth: 480
+                }
+            ).setLngLat([e.lngLat.lng, e.lngLat.lat]).setHTML(
+                `
+                    <button class="powerplant" onclick="selectPowerPlant(${e.lngLat.lat}, ${e.lngLat.lng}, 'dataget/solar', 'blue');">Solar Panel</button>
+                    <button class="powerplant" onclick="selectPowerPlant(${e.lngLat.lat}, ${e.lngLat.lng}, 'dataget/wind', 'white');">Wind Plant</button>
+                `
+            )
+        }
+
+        map.on('click', (e) => {
+            generatePopup(e).addTo(map);
         }); 
     </script>
 </body>

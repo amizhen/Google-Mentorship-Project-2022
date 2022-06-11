@@ -1,0 +1,164 @@
+:root {
+    --dark-blue: #002853;
+    --light-blue: #083D77;
+    --white : white;
+}
+
+body {
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#headerTop {
+    height: 2em;
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    background-color: var(--light-blue);
+}
+
+#title {
+    font-weight: bolder;
+    font-size: 32px;
+    color: var(--white);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+main {
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+#rightColumn {
+    width: 35%;
+    background-color: var(--dark-blue);
+    text-align: center;
+    overflow: hidden;
+}
+
+#runButton {
+    align-items: center;
+    margin: 10px;
+    margin-top: 20px;
+    background-color: var(--light-blue);
+    border: 0;
+    border-radius: 100px;
+    box-sizing: border-box;
+    color: var(--white);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 20px;
+    font-weight: bold;
+    justify-content: center;
+    line-height: 20px;
+    width: 80%;
+    height: 2em;
+    overflow: hidden;
+    padding: 0px 20px 0px 20px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    vertical-align: middle;
+}
+
+#runButton:hover {
+    background-color: #1c5299;
+    color: var(--white);
+}
+
+/* #runButton:active {
+    background: #09223b;
+    color: rgb(255, 255, 255, .7);
+}
+
+#runButton:disabled {
+    cursor: not-allowed;
+    background: rgba(0, 0, 0, .08);
+    color: rgba(0, 0, 0, .3);
+} */
+
+/* Begin MapboxGl.js css */
+
+#map {
+    width: 65%;
+    height: 1000px;
+}
+
+.powerplantSelectPopup .mapboxgl-popup-content,
+.powerplantSelectPopup .mapboxgl-popup-content-wrapper {
+    background-color: var(--dark-blue) !important;
+}
+
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-bottom-color: var(--dark-blue) !important;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+    border-top-color: var(--dark-blue) !important;
+}
+
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+    border-right-color: var(--dark-blue) !important;
+}
+
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+    border-left-color: var(--dark-blue) !important;
+}
+
+.powerplantButton {
+    align-items: center;
+    background-color: var(--light-blue);
+    border: 0;
+    border-radius: 100px;
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: normal;
+    justify-content: center;
+    line-height: 20px;
+    width: max-content;
+    height: 2em;
+    overflow: hidden;
+    padding: 0px 20px 0px 20px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    vertical-align: middle;
+}
+
+.powerplantButton:hover {
+    background-color: #1c5299;
+    color: var(--white);
+}
+
+.solarMarker {
+    background-image: url("/static/images/solar2.svg");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}
+
+.windMarker {
+    background-image: url("/static/images/windTurbinesvg.svg");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}
+
+/* Begin Char.js css */
+
+#chartContainer {
+    margin: 15px;
+}
+
+/* #chartContainer:hover {
+    position: relative;
+    transform: translate(100px, 100px) scale(2, 2);
+} */

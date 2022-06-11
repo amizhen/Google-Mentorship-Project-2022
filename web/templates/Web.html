@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Renewable Power Plant Simulation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header id="headerTop">
+        <span id="title">Renewable Power Plant Simulation</span>
+    </header>
+    <main>
+        <div id="map"></div>
+        <script src="{{ url_for('static', filename='scripts/Map.js') }}"></script>
+        <div id="rightColumn">
+            <input id="runButton" type="button" value="Run">
+            <div id="chartContainer">
+                <canvas id="chart"></canvas>
+                <script src="{{ url_for('static', filename='scripts/Chart.js') }}"></script>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
