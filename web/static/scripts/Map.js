@@ -2,10 +2,24 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGVnZW5kb2YiLCJhIjoiY2wzZGs4bm1nMDk5cjNkbzVxZ
 
 const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
+    style: 'mapbox://styles/mapbox/outdoors-v11?optimize=true',
     center: [-74.5, 40],
-    zoom: 9
+    zoom: 7
 });
+
+map.on('load', () => {
+    map.getStyle().layers.map(function(layer) {
+        if (layer.id.indexOf("road") >= 0 || layer.id.indexOf("label") >= 0) {
+            map.setLayoutProperty(layer.id, "visibility", "none");
+        }
+    })
+    /* for (var val in map.getStyle().layers) {
+        console.log(map.getStyle().layers[val]);
+    } */
+});
+
+map.dragRotate.disable();
+map.touchZoomRotate.disable();
 
 const markers = [];
 

@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Renewable Power Plant Simulation</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/Style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/Mapbox.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/Chart.css') }}">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -24,8 +26,28 @@
                 <canvas id="chart"></canvas>
                 <script src="{{ url_for('static', filename='scripts/Chart.js') }}"></script>
             </div>
+            <div id="dataPanel">
+                <input type="button" class="collapsible" value="Data">
+                <div class="dataContent">
+                    <p>
+                        <strong>Date:</strong><br>
+                        <strong>Time:</strong><br>
+                        Estimated Wind Speed: [] m/s<br>
+                        Global Horizonal Irradience: []
+                    </p>
+                </div>
+                <div class="dataContent">
+                    <p>
+                        <strong>Date: 12</strong><br>
+                        <strong>Time:</strong><br>
+                        Estimated Wind Speed: [] m/s<br>
+                        Global Horizonal Irradience: []
+                    </p>
+                </div>
+            </div>
         </div>
     </main>
+    <script src="{{ url_for('static', filename='scripts/Data.js') }}"></script>         
 </body>
 
 </html>
