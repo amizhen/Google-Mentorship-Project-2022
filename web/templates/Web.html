@@ -34,10 +34,10 @@
                     </div>
                 </div>
             </div>
-            <input id="runButton" type="button" value="Run">
+            <input id="runButton" type="button" value="Run" onclick="resetChart();">
             <div id="chartContainer">
                 <canvas id="chart"></canvas>
-                <script src="{{ url_for('static', filename='scripts/Chart.js') }}"></script>
+                <script src="{{ url_for('static', filename='scripts/TestChart.js') }}"></script>
             </div>
             <div id="dataPanel">
                 <div class="collapsible">
