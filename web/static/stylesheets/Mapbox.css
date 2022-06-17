@@ -6,7 +6,7 @@
 .powerplantSelectPopup .mapboxgl-popup-content,
 .powerplantSelectPopup .mapboxgl-popup-content-wrapper {
     background-color: var(--secondary) !important;
-    box-shadow: 1px 1px 2px 2px var(--secondary);
+    /* box-shadow: 1px 1px 2px 2px var(--secondary); */
     
 }
 

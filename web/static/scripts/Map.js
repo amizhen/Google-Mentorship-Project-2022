@@ -13,9 +13,6 @@ map.on('load', () => {
             map.setLayoutProperty(layer.id, "visibility", "none");
         }
     })
-    /* for (var val in map.getStyle().layers) {
-        console.log(map.getStyle().layers[val]);
-    } */
 });
 
 map.dragRotate.disable();

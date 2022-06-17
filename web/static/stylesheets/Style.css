@@ -1,8 +1,10 @@
 :root {
     --primary: #083D77;
     --secondary: #002853;
-    --auxiliary1 : white;
-    --highlight : #1c5299;
+    --auxiliary1: #ffffff;
+    --auxiliary2: #dfdfdf;
+    --auxiliary3: #bdbdbd;
+    --highlight: #1c5299;
 }
 
 body {
@@ -68,6 +70,103 @@ main {
     color: var(--auxiliary1);
 }
 
+.selectWrapper {
+    user-select: none;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    margin-top: 20px;
+}
+
+.select {
+    position: relative;
+    align-items: center;
+    margin: 10px 10px;
+}
+
+.selectTrigger {
+    position: relative;
+    align-items: center;
+    padding: 0px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--auxiliary1);
+    height: 60px;
+    line-height: 20px;
+    height: 2em;
+    overflow: hidden;
+    background-color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+.selectTrigger:hover {
+    background-color: var(--highlight);
+}
+
+.selectOptions {
+    display: block;
+    background-color: var(--auxiliary1);
+    pointer-events: none;
+}
+
+.selectOption {
+    display: block;
+    padding: 0px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    max-height: 0;
+    color: var(--secondary);
+    background-color: var(--auxiliary1);
+    visibility: hidden;
+    pointer-events:all;
+    cursor: pointer;
+    transition: max-height 0.2s ease-out;
+}
+
+.selectOption:hover {
+    cursor: pointer;
+    background-color: var(--auxiliary2);
+}
+
+.selectOption.selected {
+    background: var(--auxiliary3);
+}
+
+.selectArrow {
+    position:absolute;
+    right: 10px;
+    height: 15px;
+    width: 15px;
+}
+.selectArrow::before, .selectArrow::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    width: 0.15rem;
+    height: 100%;
+    transition: all 0.5s;
+    background-color: var(--auxiliary1);
+}
+.selectArrow::before {
+    left: -5px;
+    transform: rotate(45deg);
+}
+.selectArrow::after {
+    left: 5px;
+    transform: rotate(-45deg);
+}
+.open .selectArrow::before {
+    left: -5px;
+    transform: rotate(-45deg);
+}
+.open .selectArrow::after {
+    left: 5px;
+    transform: rotate(45deg);
+}
+
 /* #runButton:active {
     background: #09223b;
     color: rgb(255, 255, 255, .7);
@@ -84,7 +183,6 @@ main {
     display: inline-flex;
     justify-content: center;
     flex-direction: column;
-    /* margin-top: 20px; */
 }
 
 .collapsible {
@@ -103,23 +201,22 @@ main {
     text-align: center;
     touch-action: manipulation;
     vertical-align: middle;
+    display: flex;
+    justify-content: center;
 }
 
-.collapsibleActive, .collapsible:hover {
+.collapsible:hover {
     background-color: var(--highlight);
     color: var(--auxiliary1);
 }
 
 .dataContent {
-   /*  height: fit-content; */
     box-sizing: border-box;
     margin: 0px 10px;
-    padding: 0px 20px; 
+    padding: 0px 20px;
     text-align: left;
-    /* display: none; */
     overflow: hidden;
     background-color: var(--auxiliary1);
     max-height: 0;
     transition: max-height 0.2s ease-out;
 }
-

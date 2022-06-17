@@ -79,3 +79,4 @@ const config = {
 const myChart = new Chart(
     $("#chart"), config
 );
+
