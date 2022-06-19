@@ -69,17 +69,33 @@ var config = {
     },
     options: {
         animation,
-        plugins: { legend: false },
+        interaction: {
+            intersect: false
+        },
+        plugins: { 
+            legend: false,
+        },
+        /* tooltips: {
+            filter: function(tooltopItem) {
+                return tooltopItem.datasetIndex === 0;
+            }
+        }, */
         scales: {
             x: {
                 type: 'linear',
                 ticks: { color: "#FFFFFF" },
-                grid: { borderColor: "#FFFFFF" }
+                grid: { 
+                    borderColor: "#FFFFFF",
+                    color: "rgba(98, 98, 98, 0.4)"
+                }
             },
             y: {
                 type: 'linear',
                 ticks: { color: "#FFFFFF" },
-                grid: { borderColor: "#FFFFFF" }
+                grid: { 
+                    borderColor: "#FFFFFF",
+                    color: "rgba(98, 98, 98, 0.4)"
+                }
             }
         }
     }

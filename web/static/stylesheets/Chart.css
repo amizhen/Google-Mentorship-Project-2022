@@ -1,3 +1,8 @@
 #chartContainer {
     margin: 25px 15px;
 }
+
+#chartContainer span {
+    color: var(--auxiliary1);
+    font-weight: bold;
+}

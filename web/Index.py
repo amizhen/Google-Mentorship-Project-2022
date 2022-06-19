@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("Web.html")
+    return render_template("Index.html")
 
 @app.route("/place/wind", methods=["POST"])
 def place_wind():
