@@ -12,6 +12,7 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='scripts/Run.js') }}"></script>
 </head>
 
 <body>
@@ -29,13 +30,13 @@
                         <div class="selectArrow"></div>
                     </div>
                     <div class="selectOptions">
-                        <span class="selectOption">Value 1</span>
-                        <span class="selectOption">Value 2</span>
-                        <span class="selectOption">Value 3</span>
+                        {%for i in range(0, regionsLen)%}
+                        <span class="selectOption">{{regions[i]}}</span>
+                        {%endfor%}
                     </div>
                 </div>
             </div>
-            <input id="runButton" type="button" value="Run" onclick="resetChart();">
+            <input id="runButton" type="button" value="Run" onclick="run();">
             <div id="chartContainer">
                 <span>Chart Title Here</span>
                 <canvas id="chart"></canvas>

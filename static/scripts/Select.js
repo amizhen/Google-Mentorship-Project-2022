@@ -15,10 +15,6 @@ document.querySelector('.selectTrigger').addEventListener('click', function () {
     }
 })
 
-function getSelection() {
-    return document.querySelector(".selectTrigger span").textContent;
-}
-
 function closeSelectionPanel() {
     if (document.querySelector('.select').classList.contains('open')) {
         document.querySelector('.select').classList.toggle('open');
@@ -31,6 +27,22 @@ function closeSelectionPanel() {
     }
 }
 
+function changeRegion(region) {
+    fetch(window.location.href + "changeRegion", 
+    {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({region})
+    }).then(res => {
+        if (res.ok) {
+            return res.json()
+        } else { alert('An unexpected error has occcured.') }
+    })
+}
+
 for (const option of document.querySelectorAll(".selectOption")) {
     option.addEventListener('click', function () {
         if (!this.classList.contains('selected')) {
@@ -39,8 +51,12 @@ for (const option of document.querySelectorAll(".selectOption")) {
             }
             this.classList.add('selected');
             this.closest('.select').querySelector('.selectTrigger span').textContent = this.textContent;
-        }
+            changeRegion(this.textContent);
+        }   
         closeSelectionPanel();
     })
 }
 
+var startUp = document.querySelector('.selectOption');
+startUp.classList.add('selected');
+startUp.closest('.select').querySelector('.selectTrigger span').textContent = startUp.textContent;

@@ -4,7 +4,7 @@ from combined_data import get_demand
 
 
 class PowerSys:
-    def __int__(self, region: str, amt_storage: float, start: datetime, end: datetime):
+    def __init__(self, region: str, amt_storage: float, start: datetime, end: datetime):
         self.fitness = 0
         self.storage_cap = amt_storage
         self.stored = amt_storage
@@ -25,6 +25,10 @@ class PowerSys:
         self.waste_history = {}  # Chart of time vs excess generated power that could not be stored.
         # format = time:waste
 
+    def set_region(self, region : str):
+        self.region = region
+        self.demand = self.fetch_data()
+
     def add_wind(self, loc: tuple[float, float], amt: int, radius: float = 35.0, height: float = 80):
         self.wind_plants.append(WindPlant(loc, amt, self.start, self.end, radius=radius, height=height))
 
@@ -36,15 +40,15 @@ class PowerSys:
         # API call for usage data
 
     def tick(self, time: datetime):
-        self.gen_history[time] = (0, 0)
+        self.gen_history[time] = 0
 
         net = -1 * self.demand[time]
         for turbine in self.wind_plants:
             net += turbine.tick(time)
-            self.gen_history[time][0] += turbine.tick(time)
+            self.gen_history[time] += turbine.tick(time)
         for solar in self.solar_plants:
             net += solar.tick(time)
-            self.gen_history[time][0] += solar.tick(time)
+            self.gen_history[time] += solar.tick(time)
 
         self.net_history[time] = net
 

@@ -16,7 +16,7 @@ map.on('load', () => {
 });
 
 map.dragRotate.disable();
-map.touchZoomRotate.disable();
+/* map.touchZoomRotate.disable(); */
 
 const markers = [];
 

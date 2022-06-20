@@ -9,7 +9,7 @@ class PowerPlant:
         self.mode = mode
         self.start = start
         self.end = end
-        self.data = self.fetch_data()
+        self.data = {}
 
     def tick(self, time: datetime):
         return self.process_data(time)
@@ -29,6 +29,7 @@ class WindPlant(PowerPlant):
         super().__init__(location, amount, start, end, mode='wind')
         self.radius = radius
         self.height = height
+        self.data = self.fetch_data()
 
     def fetch_data(self):
         return get_wind(self.start, self.end, self.loc[0], self.loc[1], self.radius, self.height)
@@ -38,6 +39,7 @@ class SolarPlant(PowerPlant):
     def __init__(self, location: tuple[float, float], amount: float, start: datetime, end: datetime, efficiency: float=0.15):
         super().__init__(location, amount, start, end, mode='solar')
         self.efficiency = efficiency
+        self.data = self.fetch_data()
 
     def fetch_data(self):
         return get_solar(self.start, self.end, self.loc[0], self.loc[1], self.efficiency)

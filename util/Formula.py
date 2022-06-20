@@ -62,24 +62,22 @@ def calc_wind_power(radius: float, wind_velocity: float, efficiency=0.4, air_den
         mechanical losses.
     """
 
-    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6 * (1 / (10 ** 6))
+    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6 * 10 ** -6
 
 
 def calc_solar_power(GHI: float, efficiency: float) -> float:
     """
-    Function to calculate the power (joules per second) produced by solar panels per square meter
+    Function to calculate the power (joules per second) produced by solar panels for one square meter
 
     Args:
         irradiance : The irradiance (W/m^2)
-        length : length of solar panel
-        width : width of solar panel
         efficiency : efficiency of solar panel. Range is usually between 15% to 18%
 
     Returns:
         The power (megawatt hours) produced by the solar panel
     """
     # The 0.75 is to account for dirt, shade, etc
-    return GHI * efficiency * 0.75 * (1 / (10 ** 6))
+    return GHI * efficiency * 0.75 * 10 ** -6
 
 
 def get_ghi(zenith: float, dni: float, dhi: float):
