@@ -20,8 +20,34 @@
         <span id="title">Renewable Power Plant Simulation</span>
     </header>
     <main>
-        <div id="map"></div>
-        <script src="{{ url_for('static', filename='scripts/Map.js') }}"></script>
+        <div id="leftColumn">
+            <div id="map"></div>
+            <div id="underMap">
+                <div id="inputs">
+                    <div class="inputPanel">
+                        <h1>Percentage of Power to Supply</h1>
+                        <span>Please enter a value from 1 to 100</span>
+                        <input type="number" id="powerPercentage" class="inputButton" min="1" max="100" step="1"
+                            value="25">
+                    </div>
+                    <div class="inputPanel">
+                        <h1>Solar Farm Size in Square Meters</h1>
+                        <span>Please enter a value from 10,000 to 10,000,000</span>
+                        <input type="number" id="solarFarmSize" class="inputButton" min="10000" max="10000000"
+                            step="10000" value="250000">
+                    </div>
+                    <div class="inputPanel">
+                        <h1>Wind Turbines in Wind Farm</h1>
+                        <span>Please enter a value from 10 to 1000</span>
+                        <input type="number" id="windFarmSize" class="inputButton" min="10" max="1000" step="10"
+                            value="100">
+                    </div>
+                </div>
+                <div id="infoPanel">
+                    <!-- Information about simulation goes here -->
+                </div>
+            </div>
+        </div>
         <div id="rightColumn">
             <div class="selectWrapper">
                 <div class="select">
@@ -36,7 +62,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <input id="runButton" type="button" value="Run" onclick="run();"> -->
             <div class="runButton">Run</div>
             <div id="chartContainer">
                 <span>Chart Title Here</span>
@@ -83,9 +108,11 @@
             </div>
         </div>
     </main>
+    <script src="{{ url_for('static', filename='scripts/Map.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/Run.js') }}"></script>
-    <script src="{{ url_for('static', filename='scripts/Data.js') }}"></script>   
-    <script src="{{ url_for('static', filename='scripts/Select.js') }}"></script> 
+    <script src="{{ url_for('static', filename='scripts/Data.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/Select.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/Input.js') }}"></script>
 </body>
 
 </html>

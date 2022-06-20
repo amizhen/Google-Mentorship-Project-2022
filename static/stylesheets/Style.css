@@ -41,6 +41,57 @@ main {
     overflow: hidden;
 }
 
+#leftColumn {
+    width: 65%;
+    background-color: var(--primary);
+    overflow: hidden;
+}
+
+#underMap {
+    height: fit-content;
+}
+
+#inputs {
+    height: fit-content;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.inputPanel {
+    width: 30%;
+    height: fit-content;
+}
+
+.inputPanel h1 {
+    color: var(--auxiliary1);
+    font-size: x-large;
+}
+
+.inputPanel span {
+    color: red;
+    font-weight: 400;
+    display: none;
+    transition: max-height 0.2s ease-out;
+}
+
+.inputButton {
+    width: 80%;
+    padding: 12px 20px;
+}
+
+.inputButton:focus {
+    outline: none !important;
+}
+
+.inputButton.error{
+    border: 2px solid #FF0000;
+    border-radius: 4px;
+}
+
+#infoPanel {
+    height: 200px;
+}
+
 .runButton {
     align-items: center;
     margin: 10px;
