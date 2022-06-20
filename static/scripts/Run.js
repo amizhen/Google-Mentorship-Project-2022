@@ -10,7 +10,11 @@ document.querySelector(".runButton").addEventListener('click', function() {
         body: JSON.stringify({
             region,
             solarPlants,
-            windPlants
+            windPlants,
+            percentagePower,
+            windFarmSize,
+            solarFarmSize,
+            storageCap
         })
     }).then(res => {
         if (res.ok) {

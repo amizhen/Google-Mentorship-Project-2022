@@ -7,6 +7,7 @@ function addEventListenerToInput(id, func) {
                 var span = e.target.previousElementSibling;
                 span.style.display = "inline";
             }
+            func(value > +e.target.max ? +e.target.max : +e.target.min)
         } else {
             if (e.target.classList.contains("error")) {
                 e.target.classList.toggle("error");
@@ -21,3 +22,4 @@ function addEventListenerToInput(id, func) {
 addEventListenerToInput('powerPercentage', val => percentagePower = val)
 addEventListenerToInput('solarFarmSize', val => solarFarmSize = val)
 addEventListenerToInput('windFarmSize', val => windFarmSize = val)
+addEventListenerToInput('storageCap', val => storageCap = val)

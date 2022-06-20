@@ -58,8 +58,9 @@ function generatePopup(e) {
 
 // TODO: implement this
 function removePowerPlant(index) {
-    markers[index].remove();
+    var marker = markers[index];
     markers.splice(index, 1);
+    marker.remove();
 }
 
 map.on('click', (e) => {

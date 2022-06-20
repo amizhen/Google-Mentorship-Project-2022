@@ -38,9 +38,15 @@
                     </div>
                     <div class="inputPanel">
                         <h1>Wind Turbines in Wind Farm</h1>
-                        <span>Please enter a value from 10 to 1000</span>
+                        <span>Please enter a value from 10 to 1,000</span>
                         <input type="number" id="windFarmSize" class="inputButton" min="10" max="1000" step="10"
                             value="100">
+                    </div>
+                    <div class="inputPanel">
+                        <h1>Electricity Storage Amount</h1>
+                        <span>Please enter a value from 1,000 to 1,000,000</span>
+                        <input type="number" id="storageCap" class="inputButton" min="1000" max="1000000" step="1000"
+                            value="50000">
                     </div>
                 </div>
                 <div id="infoPanel">
@@ -56,9 +62,11 @@
                         <div class="selectArrow"></div>
                     </div>
                     <div class="selectOptions">
+
                         {%for i in range(0, regionsLen)%}
                         <span class="selectOption">{{regions[i]}}</span>
                         {%endfor%}
+
                     </div>
                 </div>
             </div>
@@ -71,7 +79,7 @@
             <div id="dataPanel">
                 <div class="collapsible">
                     <span>Blackout Breakdowns</span>
-                    <div class="selectArrow" style="right: 55px;"></div>
+                    <div class="selectArrow" style="right: 3.5%;"></div>
                 </div>
                 <div class="dataContent">
                     <div class="collapsible">

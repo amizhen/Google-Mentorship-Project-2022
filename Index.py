@@ -11,16 +11,15 @@ def index():
     return render_template("Index.html", regions = list(Data.regions.keys()), regionsLen = len(Data.regions))
 
 @app.route("/run", methods=["POST"])
-def send_data():
+def run():
     data = request.get_json()
-    power_sys = PowerSys(data["region"], -1, datetime(2016, 3, 1), datetime(2016, 3, 4))
+    power_sys = PowerSys(data["region"], data["storageCap"], datetime(2016, 3, 1), datetime(2016, 3, 4), percentSatisfied=data["percentagePower"] / 100)
     
     for wind in data["windPlants"]:
-        power_sys.add_wind((wind[0], wind[1]), 150) # 75-159 per farm
+        power_sys.add_wind((wind[0], wind[1]), data["windFarmSize"]) # 75-159 per farm
 
     for solar in data["solarPlants"]:
-        power_sys.add_solar((solar[0], solar[1]), 4000000) # the amt here is the square meters of solar panels. Can range from 10 to 50 acres 
-
+        power_sys.add_solar((solar[0], solar[1]), data["solarFarmSize"]) # the amt here is the square meters of solar panels. Can range f
     power_sys.run()
 
     return jsonify({

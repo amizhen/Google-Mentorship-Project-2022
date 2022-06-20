@@ -4,7 +4,7 @@ from combined_data import get_demand
 
 
 class PowerSys:
-    def __init__(self, region: str, amt_storage: float, start: datetime, end: datetime):
+    def __init__(self, region: str, amt_storage: float, start: datetime, end: datetime, percentSatisfied : float = 1):
         self.fitness = 0
         self.storage_cap = amt_storage
         self.stored = amt_storage
@@ -14,6 +14,7 @@ class PowerSys:
         self.end = end
         self.region = region
         self.demand = self.fetch_data()
+        self.percentSatisfied = percentSatisfied
 
         # Data for fitness functions
         self.net_history = {}  # Chart of time vs net_generated
@@ -48,12 +49,14 @@ class PowerSys:
     def tick(self, time: datetime):
         self.gen_history[time] = 0
 
-        net = -1 * self.demand[time]
+        net = -self.demand[time] * self.percentSatisfied
         for turbine in self.wind_plants:
             net += turbine.tick(time)
+            print(turbine.tick(time))
             self.gen_history[time] += turbine.tick(time)
         for solar in self.solar_plants:
             net += solar.tick(time)
+            print(solar.tick(time))
             self.gen_history[time] += solar.tick(time)
 
         self.net_history[time] = net
