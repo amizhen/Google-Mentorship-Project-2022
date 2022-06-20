@@ -3,10 +3,9 @@ from datetime import datetime
 
 
 class PowerPlant:
-    def __init__(self, location: tuple[float, float], amount: float, start: datetime, end: datetime, mode=None):
+    def __init__(self, location: tuple[float, float], amount: float, start: datetime, end: datetime):
         self.loc = location
         self.amt = amount
-        self.mode = mode
         self.start = start
         self.end = end
         self.data = self.fetch_data()
@@ -21,23 +20,23 @@ class PowerPlant:
         return self.data[time] * self.amt
 
     def __str__(self):
-        return f'{self.amt}, {self.mode} at {self.loc}'
+        return NotImplemented
 
 
 class WindPlant(PowerPlant):
-    def __init__(self, location: tuple[float, float], amount: int, start: datetime, end: datetime, radius: float = 35.0, height: float = 80.0):
-        super().__init__(location, amount, start, end, mode='wind')
+    def __init__(self, location: tuple[float, float], amount: int, start: datetime, end: datetime, radius = 35.0, height = 80.0):
         self.radius = radius
         self.height = height
+        super().__init__(location, amount, start, end)
 
     def fetch_data(self):
         return get_wind(self.start, self.end, self.loc[0], self.loc[1], self.radius, self.height)
 
 
 class SolarPlant(PowerPlant):
-    def __init__(self, location: tuple[float, float], amount: float, start: datetime, end: datetime, efficiency: float=0.15):
-        super().__init__(location, amount, start, end, mode='solar')
+    def __init__(self, location: tuple[float, float], amount: float, start: datetime, end: datetime, efficiency=0.15):
         self.efficiency = efficiency
+        super().__init__(location, amount, start, end)
 
     def fetch_data(self):
         return get_solar(self.start, self.end, self.loc[0], self.loc[1], self.efficiency)

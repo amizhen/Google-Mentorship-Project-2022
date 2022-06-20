@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
 from power_plant import WindPlant, SolarPlant
 from combined_data import get_demand
+from pprint import pprint
 
 
 class PowerSys:
-    def __int__(self, region: str, amt_storage: float, start: datetime, end: datetime):
+    def __init__(self, region, amt_storage, start, end):
         self.fitness = 0
         self.storage_cap = amt_storage
         self.stored = amt_storage
@@ -21,7 +22,7 @@ class PowerSys:
         self.storage_history = {}  # Chart of time vs amt of power in storage, shows deficit for the hour if negative
         # format = time:storage
         self.gen_history = {}  # Chart of time vs power generated at that time
-        # format = time:(wind, solar)
+        # format = time:[wind, solar]
         self.waste_history = {}  # Chart of time vs excess generated power that could not be stored.
         # format = time:waste
 
@@ -36,7 +37,7 @@ class PowerSys:
         # API call for usage data
 
     def tick(self, time: datetime):
-        self.gen_history[time] = (0, 0)
+        self.gen_history[time] = [0, 0]
 
         net = -1 * self.demand[time]
         for turbine in self.wind_plants:
@@ -100,4 +101,8 @@ class PowerSys:
 
 
 if __name__ == '__main__':
-    pass
+    syst = PowerSys("New York", 0.0, datetime(2016, 3, 1), datetime(2017, 3, 1))
+    syst.add_solar((42.77376799574172, -75.0433619493047), 100000000)
+    syst.add_wind((42.77376799574172, -75.0433619493047), 1000)
+    syst.run()
+    pprint(syst.gen_history)
