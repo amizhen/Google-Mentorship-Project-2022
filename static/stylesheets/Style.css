@@ -41,7 +41,7 @@ main {
     overflow: hidden;
 }
 
-#runButton {
+.runButton {
     align-items: center;
     margin: 10px;
     margin-top: 20px;
@@ -66,18 +66,18 @@ main {
     vertical-align: middle;
 }
 
-#runButton:hover {
+.runButton:hover {
     background-color: var(--highlight);
     color: var(--auxiliary1);
 }
 
-/* #runButton:active {
+.runButton.active {
     background: #09223b;
     color: rgb(255, 255, 255, .7);
 }
 
-#runButton:disabled {
+.runButton.disabled {
     cursor: not-allowed;
     background: rgba(0, 0, 0, .08);
     color: rgba(0, 0, 0, .3);
-} */
+}

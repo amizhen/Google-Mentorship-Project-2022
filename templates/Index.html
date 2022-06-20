@@ -12,7 +12,7 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{{ url_for('static', filename='scripts/Run.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/Variables.js') }}"></script>
 </head>
 
 <body>
@@ -36,7 +36,8 @@
                     </div>
                 </div>
             </div>
-            <input id="runButton" type="button" value="Run" onclick="run();">
+            <!-- <input id="runButton" type="button" value="Run" onclick="run();"> -->
+            <div class="runButton">Run</div>
             <div id="chartContainer">
                 <span>Chart Title Here</span>
                 <canvas id="chart"></canvas>
@@ -82,6 +83,7 @@
             </div>
         </div>
     </main>
+    <script src="{{ url_for('static', filename='scripts/Run.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/Data.js') }}"></script>   
     <script src="{{ url_for('static', filename='scripts/Select.js') }}"></script> 
 </body>

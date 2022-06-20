@@ -75,11 +75,6 @@ var config = {
         plugins: { 
             legend: false,
         },
-        /* tooltips: {
-            filter: function(tooltopItem) {
-                return tooltopItem.datasetIndex === 0;
-            }
-        }, */
         scales: {
             x: {
                 type: 'linear',

@@ -30,10 +30,16 @@ class PowerSys:
         self.demand = self.fetch_data()
 
     def add_wind(self, loc: tuple[float, float], amt: int, radius: float = 35.0, height: float = 80):
-        self.wind_plants.append(WindPlant(loc, amt, self.start, self.end, radius=radius, height=height))
+        try:
+            self.wind_plants.append(WindPlant(loc, amt, self.start, self.end, radius=radius, height=height))
+        except:
+            pass
 
     def add_solar(self, loc: tuple[float, float], amt: float, efficancy: float = 0.15):
-        self.solar_plants.append(SolarPlant(loc, amt, self.start, self.end, efficiency=efficancy))
+        try:
+            self.solar_plants.append(SolarPlant(loc, amt, self.start, self.end, efficiency=efficancy))
+        except:
+            pass
 
     def fetch_data(self):
         return get_demand(self.start, self.end, self.region)

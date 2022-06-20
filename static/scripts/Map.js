@@ -20,20 +20,12 @@ map.dragRotate.disable();
 
 const markers = [];
 
-function selectPowerPlant(lat_coord, lng_coord, endpoint, className) {
-    fetch(window.location.href + endpoint,
-        {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({ lat: lat_coord, lng: lng_coord })
-        }).then(res => {
-            if (res.ok) {
-                return res.json()
-            } else { alert("An unexpected error has occurred.") }
-        })
+function selectPowerPlant(lat_coord, lng_coord, className) {
+    if (className == "solarMarker") {
+        solarPlants.push([lat_coord, lng_coord]);
+    } else if (className == "windMarker") {
+        windPlants.push([lat_coord, lng_coord]);
+    }
 
     var marker_element = document.createElement('div');
     marker_element.className = className;
@@ -58,13 +50,13 @@ function generatePopup(e) {
         }
     ).setLngLat([e.lngLat.lng, e.lngLat.lat]).setHTML(
         `
-            <button class="powerplantButton" onclick="selectPowerPlant(${e.lngLat.lat}, ${e.lngLat.lng}, 'place/solar', 'solarMarker');">Solar Panel</button>
-            <button class="powerplantButton" onclick="selectPowerPlant(${e.lngLat.lat}, ${e.lngLat.lng}, 'place/wind', 'windMarker');">Wind Plant</button>
+            <button class="powerplantButton" onclick="selectPowerPlant(${e.lngLat.lat}, ${e.lngLat.lng}, 'solarMarker');">Solar Panel</button>
+            <button class="powerplantButton" onclick="selectPowerPlant(${e.lngLat.lat}, ${e.lngLat.lng}, 'windMarker');">Wind Plant</button>
         `
     )
 }
 
-// implement this
+// TODO: implement this
 function removePowerPlant(index) {
     markers[index].remove();
     markers.splice(index, 1);

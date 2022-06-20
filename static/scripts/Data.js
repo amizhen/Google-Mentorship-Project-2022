@@ -1,4 +1,3 @@
-
 for (const collapsible of document.querySelectorAll('.collapsible')) {
     collapsible.addEventListener('click', function () {
         this.classList.toggle("open");
