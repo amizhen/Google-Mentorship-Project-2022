@@ -24,7 +24,8 @@ class PowerPlant:
 
 
 class WindPlant(PowerPlant):
-    def __init__(self, location: tuple[float, float], amount: int, start: datetime, end: datetime, radius = 35.0, height = 80.0):
+    def __init__(self, location: tuple[float, float], amount: int, start: datetime, end: datetime, radius=35.0,
+                 height=80.0):
         self.radius = radius
         self.height = height
         super().__init__(location, amount, start, end)

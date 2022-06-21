@@ -1,0 +1,154 @@
+.selectWrapper {
+    user-select: none;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    margin-top: 20px;
+}
+
+.select {
+    position: relative;
+    align-items: center;
+    margin: 10px 10px;
+}
+
+.selectTrigger {
+    position: relative;
+    align-items: center;
+    padding: 0px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--auxiliary1);
+    height: 60px;
+    line-height: 20px;
+    height: 2em;
+    overflow: hidden;
+    background-color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+.selectTrigger:hover {
+    background-color: var(--highlight);
+}
+
+.selectOptions {
+    display: block;
+    background-color: var(--auxiliary1);
+    pointer-events: none;
+}
+
+.selectOption {
+    display: block;
+    padding: 0px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    max-height: 0;
+    color: var(--secondary);
+    background-color: var(--auxiliary1);
+    visibility: hidden;
+    pointer-events:all;
+    cursor: pointer;
+    transition: max-height 0.2s ease-out;
+}
+
+.selectOption:not(.selected):hover {
+    cursor: pointer;
+    background-color: var(--auxiliary2);
+}
+
+.selected {
+    background: var(--auxiliary3);
+}
+
+.selectArrow {
+    position:absolute;
+    right: 10px;
+    height: 15px;
+    width: 15px;
+}
+.selectArrow::before, .selectArrow::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    width: 0.15rem;
+    height: 100%;
+    transition: all 0.5s;
+    background-color: var(--auxiliary1);
+}
+.selectArrow::before {
+    left: -5px;
+    transform: rotate(45deg);
+}
+.selectArrow::after {
+    left: 5px;
+    transform: rotate(-45deg);
+}
+.open .selectArrow::before {
+    left: -5px;
+    transform: rotate(-45deg);
+}
+.open .selectArrow::after {
+    left: 5px;
+    transform: rotate(45deg);
+}
+
+#dataPanel {
+    width: 90%;
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 0px 20px;
+}
+
+.collapsible {
+    align-items: center;
+    background-color: var(--primary);
+    border: 0;
+    color: var(--auxiliary1);
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    height: 2em;
+    overflow: hidden;
+    text-align: center;
+    touch-action: manipulation;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+}
+
+.collapsible:hover {
+    background-color: var(--highlight);
+    color: var(--auxiliary1);
+}
+
+.dataContent {
+    text-align: left;
+    overflow: hidden;
+    background-color: var(--auxiliary1);
+    max-height: 0;
+    transition: max-height 0.2s ease-out;
+    cursor: pointer;
+}
+
+
+.dataContent > .collapsible {
+    background-color: var(--primary2);
+}
+
+.dataContent > .dataContent:not(.selected):hover {
+    background-color: var(--auxiliary2);
+}
+
+.dataContent > .dataContent.selected {
+    background-color: var(--auxiliary3);
+}
+
+.dataContent > .dataContent {
+    padding-left: 10px;
+}

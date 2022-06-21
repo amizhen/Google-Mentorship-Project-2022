@@ -14,8 +14,8 @@ def get_wind(start, end, lon, lat, radius, height):
 
 def get_solar(start, end, lon, lat, efficiency):
     solar_data = get_solar_data(lon, lat, start, end)
-    ghi = convert_to_ghi_data(solar_data)
-    solar_power = {time: calc_solar_power(ghi[time], efficiency) for time in ghi}
+    ghi = convert_to_ghi_data(solar_data) # W/m^2 or J/s * m^2
+    solar_power = {time: calc_solar_power(ghi[time], efficiency) for time in ghi} # MWhrs
     return solar_power
 
 

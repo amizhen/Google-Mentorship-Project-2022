@@ -1,0 +1,73 @@
+#map {
+    width: 100%;
+    height: 1000px;
+}
+
+.powerplantSelectPopup .mapboxgl-popup-content,
+.powerplantSelectPopup .mapboxgl-popup-content-wrapper {
+    background-color: var(--secondary) !important;
+    /* box-shadow: 1px 1px 2px 2px var(--secondary); */
+    
+}
+
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-bottom-color: var(--secondary) !important;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+    border-top-color: var(--secondary) !important;
+}
+
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+    border-right-color: var(--secondary) !important;
+}
+
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+    border-left-color: var(--secondary) !important;
+}
+
+.powerplantButton {
+    align-items: center;
+    background-color: var(--primary);
+    border: 0;
+    border-radius: 100px;
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: normal;
+    justify-content: center;
+    line-height: 20px;
+    width: max-content;
+    height: 2em;
+    overflow: hidden;
+    padding: 0px 20px 0px 20px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    vertical-align: middle;
+}
+
+.powerplantButton:hover {
+    background-color: var(--highlight);
+    color: var(--auxiliary1);
+}
+
+.solarMarker {
+    background-image: url("/static/images/solar2.svg");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}
+
+.windMarker {
+    background-image: url("/static/images/windTurbinesvg.svg");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}

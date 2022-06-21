@@ -5,7 +5,7 @@ import functools
 
 import requests
 
-regions = {
+""" regions = {
     "California": "CAL",
     **dict.fromkeys(["North Carolina", "South Carolina"], "CAR"),
     **dict.fromkeys(["North Dakota", "South Dakota", "Nebraska", "Kansas", "Oklahoma", "Minnesota"], "CENT"),
@@ -21,6 +21,22 @@ regions = {
     **dict.fromkeys(["Arizona", "New Mexico", "Utah", "Nevada", "Colorado"], "SW"),
     "Tennessee": "TEN",
     "Texas": "TEX"
+} """
+
+regions = {
+    "New York": "NY",
+    "California": "CAL",
+    "Florida": "FLA",
+    "New England": "NE",
+    "Tennessee": "TEN",
+    "Texas": "TEX",
+    "North Carolina & South Carolina": "CAR",
+    "Central": "CENT",
+    "Mid-Atlantic": "MIDA",
+    "Midwest": "MIDW",
+    "North West": "NW",
+    "South East": "SE",
+    "South West": "SW"
 }
 
 with open("key.txt", "r") as file:

@@ -1,0 +1,135 @@
+:root {
+    --primary: #083D77;
+    --secondary: #002853;
+    --primary2: #0e5bad;
+    --auxiliary1: #ffffff;
+    --auxiliary2: #dfdfdf;
+    --auxiliary3: #bdbdbd;
+    --highlight: #1c5299;
+}
+
+body {
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#headerTop {
+    height: 2em;
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    background-color: var(--primary);
+}
+
+#title {
+    font-weight: bolder;
+    font-size: 32px;
+    color: var(--auxiliary1);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+main {
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+#rightColumn {
+    width: 35%;
+    background-color: var(--secondary);
+    text-align: center;
+    overflow: hidden;
+}
+
+#leftColumn {
+    width: 65%;
+    background-color: var(--primary);
+    overflow: hidden;
+}
+
+#underMap {
+    height: fit-content;
+}
+
+#inputs {
+    height: fit-content;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.inputPanel {
+    width: 30%;
+    height: fit-content;
+}
+
+.inputPanel h1 {
+    color: var(--auxiliary1);
+    font-size: x-large;
+}
+
+.inputPanel span {
+    color: red;
+    font-weight: 400;
+    display: none;
+    transition: max-height 0.2s ease-out;
+}
+
+.inputButton {
+    width: 80%;
+    padding: 12px 20px;
+}
+
+.inputButton:focus {
+    outline: none !important;
+}
+
+.inputButton.error{
+    border: 2px solid #FF0000;
+    border-radius: 4px;
+}
+
+#infoPanel {
+    height: 200px;
+}
+
+.runButton {
+    align-items: center;
+    margin: 10px;
+    margin-top: 20px;
+    background-color: var(--primary);
+    border: 0;
+    border-radius: 100px;
+    box-sizing: border-box;
+    color: var(--auxiliary1);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 20px;
+    font-weight: bold;
+    justify-content: center;
+    line-height: 20px;
+    width: 80%;
+    height: 2em;
+    overflow: hidden;
+    padding: 0px 20px 0px 20px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    vertical-align: middle;
+}
+
+.runButton:hover {
+    background-color: var(--highlight);
+    color: var(--auxiliary1);
+}
+
+.runButton.active {
+    background: #09223b;
+    color: rgb(255, 255, 255, .7);
+}
+
+.runButton.disabled {
+    cursor: not-allowed;
+    background: rgba(0, 0, 0, .08);
+    color: rgba(0, 0, 0, .3);
+}
