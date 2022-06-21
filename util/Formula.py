@@ -105,3 +105,5 @@ if __name__ == "__main__":
     print(find_roughness({1.0: 5.7}, {1.0: 6.55}))  # should be 0.0002
     print(find_roughness({1.0: 5.7, 2.0: 3.0, 3.0: 10},
                          {1.0: 6.55, 2.0: 3.45, 3: 11.49, 10000: 10000}))  # should be 0.0002
+
+    print(calc_wind_power(52, 12, air_density=1.23))
