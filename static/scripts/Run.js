@@ -22,6 +22,11 @@ document.querySelector(".runButton").addEventListener('click', function() {
         } else alert('An unexpected error has occurred');
     }).then(jsonResponse => {
         this.classList.toggle('active')
-        console.log(jsonResponse);
+        data = jsonResponse;
+        console.log(jsonResponse); // TODO: Remove this
     })
 })
+
+function updateDropDowns() {
+    
+}

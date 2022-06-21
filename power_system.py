@@ -5,17 +5,17 @@ from pprint import pprint
 
 
 class PowerSys:
-    def __init__(self, region: str, amt_storage: float, start: datetime, end: datetime, ):
+    def __init__(self, region: str, amt_storage: float, start: datetime, end: datetime, percentSatisfied : float):
         self.fitness = 0
         self.STORAGECAP = amt_storage
-        self.stored = amt_storage
+        self.stored = 0 # amt_storage
         self.wind_plants = []
         self.solar_plants = []
         self.start = start
         self.end = end
         self.region = region
         self.demand = self.fetch_data()
-        # self.percentSatisfied = percentSatisfied
+        self.percentSatisfied = percentSatisfied
 
         # Data for fitness functions
         self.net_history = {}  # Chart of time vs net_generated
@@ -49,14 +49,12 @@ class PowerSys:
 
     def tick(self, time: datetime):
         self.gen_history[time] = [0, 0]
-        net = -self.demand[time] #* self.percentSatisfied
+        net = -self.demand[time] * self.percentSatisfied
         for turbine in self.wind_plants:
             net += turbine.tick(time)
-            # print(turbine.tick(time))
             self.gen_history[time][1] += turbine.tick(time)
         for solar in self.solar_plants:
             net += solar.tick(time)
-            # print(solar.tick(time))
             self.gen_history[time][0] += solar.tick(time)
 
         self.net_history[time] = net
@@ -65,8 +63,7 @@ class PowerSys:
             self.waste_history[time] = self.stored + net - self.STORAGECAP
             self.storage_history[time] = self.STORAGECAP
             self.stored = self.STORAGECAP
-
-        if self.stored + net < 0:
+        elif self.stored + net < 0:
             self.storage_history[time] = self.stored + net
             self.stored = 0
         else:

@@ -19,7 +19,7 @@ def run():
         power_sys.add_wind((wind[0], wind[1]), data["windFarmSize"]) # 75-159 per farm
 
     for solar in data["solarPlants"]:
-        power_sys.add_solar((solar[0], solar[1]), data["solarFarmSize"]) # the amt here is the square meters of solar panels. Can range f
+        power_sys.add_solar((solar[0], solar[1]), data["solarFarmSize"] * 1000 * 1000) # the amt here is the square meters of solar panels. Can range f
     power_sys.run()
 
     return jsonify({
