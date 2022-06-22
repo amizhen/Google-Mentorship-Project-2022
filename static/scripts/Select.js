@@ -37,6 +37,7 @@ for (const option of document.querySelectorAll(".selectOption")) {
             this.closest('.select').querySelector('.selectTrigger span').textContent = this.textContent;
             region = this.textContent;
             removePowerPlants();
+            moveToLocation();
         }   
         closeSelectionPanel();
     })

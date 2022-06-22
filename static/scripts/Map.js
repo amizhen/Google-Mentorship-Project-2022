@@ -66,3 +66,11 @@ function removePowerPlants() {
 map.on('click', (e) => {
     generatePopup(e).addTo(map);
 }); 
+
+function moveToLocation() {
+    map.flyTo({
+        center: regionMap[region]["coord"],
+        zoom: regionMap[region]["zoom"],
+        speed: 0.4
+    })
+}

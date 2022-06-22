@@ -1,4 +1,60 @@
 var region = ""
+
+var regionMap = {
+    "New York": {
+        "coord": [-75.29431981428755, 41.968898861229064],
+        "zoom": 6.18
+    },
+    "California": {
+        "coord": [-120.44734591530451, 35.62064384761716],
+        "zoom": 5
+    },
+    "Florida": {
+        "coord": [-84.20241994744073, 26.42828845522473],
+        "zoom": 5.9
+    },
+    "New England": {
+        "coord": [-71.5658320324526, 44.334146985948166],
+        "zoom": 5.8
+    },
+    "Tennessee": {
+        "coord": [-85.86549142844251, 35.76639768350098],
+        "zoom": 5.9
+    },
+    "Texas": {
+        "coord": [-98.94458440209038, 31.751587499650128],
+        "zoom": 5.1
+    },
+    "North Carolina & South Carolina": {
+        "coord": [-79.85268253156312, 33.05334867920635],
+        "zoom": 6
+    },
+    "Central": {
+        "coord": [-98.281848622276, 43.56810866464568],
+        "zoom": 4.9
+    },
+    "Mid-Atlantic": {
+        "coord": [-80.44748275282002, 39.11034002063266],
+        "zoom": 5.5
+    },
+    "Midwest": {
+        "coord": [-86.1589375539239, 42.06725994414461],
+        "zoom": 5.2
+    },
+    "North West": {
+        "coord": [-113.62174282264907, 43.51164500713821],
+        "zoom": 4.7
+    },
+    "South East": {
+        "coord": [-88.14832407220518, 32.11557872919383],
+        "zoom": 5.3
+    },
+    "South West": {
+        "coord": [-109.03430441839342, 34.956532325008666],
+        "zoom": 4.8
+    }
+}
+
 var percentagePower = 25
 var windFarmSize = 100 // number of plants
 var solarFarmSize = 100 // in square kilometersmeters
