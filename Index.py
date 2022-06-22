@@ -28,7 +28,7 @@ def run():
         "storage_history": {key.timestamp() : power_sys.storage_history[key] for key in power_sys.storage_history},
         "gen_history": {key.timestamp() : power_sys.gen_history[key] for key in power_sys.gen_history},
         "waste_history": {key.timestamp() : power_sys.waste_history[key] for key in power_sys.waste_history}
-    });
+    })
 
 if __name__ == "__main__":
     app.run(debug = True)    

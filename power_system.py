@@ -5,7 +5,7 @@ from pprint import pprint
 
 
 class PowerSys:
-    def __init__(self, region: str, amt_storage: float, start: datetime, end: datetime, percentSatisfied : float):
+    def __init__(self, region: str, amt_storage: float, start: datetime, end: datetime, percentSatisfied  : float = 1.0):
         self.fitness = 0
         self.STORAGECAP = amt_storage
         self.stored = 0 # amt_storage
@@ -58,16 +58,14 @@ class PowerSys:
             self.gen_history[time][0] += solar.tick(time)
 
         self.net_history[time] = net
-
-        if self.stored + net > self.STORAGECAP:
-            self.waste_history[time] = self.stored + net - self.STORAGECAP
-            self.storage_history[time] = self.STORAGECAP
-            self.stored = self.STORAGECAP
-        elif self.stored + net < 0:
+        # print(self.stored, net, self.demand[time], sum(self.gen_history[time]))
+        if self.stored + net < 0:
             self.storage_history[time] = self.stored + net
             self.stored = 0
         else:
-            self.stored += net
+            if self.stored + net > self.STORAGECAP:
+                self.waste_history[time] = self.stored + net - self.STORAGECAP
+            self.stored = min(net+self.stored, self.STORAGECAP)
             self.storage_history[time] = self.stored
 
     # def calc_fitness(self): NOT NECESSARY SINCE WE ARE NO LONGER OPTIMISING
@@ -89,6 +87,20 @@ class PowerSys:
         for diff in range(diff_hours):
             time = self.start + timedelta(hours=diff)
             self.tick(time)
+
+
+    def calc_needed_storage(self):
+        out = 0
+        count = 0
+        for time in self.storage_history:
+            if self.storage_history[time] > 0 and count > 0:
+                out = max(count, out)
+                count = 0
+            elif self.storage_history[time] < 0:
+                count += self.storage_history[time] * -1
+        out = max(count, out)
+        return out
+
 
     # Makes PowerSys sortable by the fitness score
 
@@ -112,8 +124,12 @@ class PowerSys:
 
 
 if __name__ == '__main__':
-    syst = PowerSys("New York", 0.0, datetime(2016, 3, 1), datetime(2017, 3, 1))
-    syst.add_solar((42.77376799574172, -75.0433619493047), 100000000)
-    syst.add_wind((42.77376799574172, -75.0433619493047), 1000)
+    syst = PowerSys("New York", 1000, datetime(2016, 1, 1), datetime(2017, 1, 1))
+    syst.add_solar((42.77376799574172, -75.0433619493047), 1000000000)
+    syst.add_wind((42.77376799574172, -75.0433619493047), 10000)
     syst.run()
-    pprint(syst.gen_history)
+    for i in range(len(syst.storage_history)):
+        print(list(syst.gen_history.values())[i], list(syst.demand.values())[i], list(syst.storage_history.values())[i])
+
+    print(syst.calc_needed_storage())
+
