@@ -2,6 +2,7 @@ document.querySelector(".runButton").addEventListener('click', function () {
     this.classList.toggle('active')
     document.querySelectorAll(".dataContent").forEach(element => element.remove());
     document.querySelectorAll('.collapsible.open').forEach(elem => elem.classList.toggle("open"));
+    document.body.style.cursor = "wait";
     fetch(window.location.href + "run",
         {
             method: 'POST',
@@ -26,6 +27,7 @@ document.querySelector(".runButton").addEventListener('click', function () {
             } else alert('An unexpected error has occurred');
         }).then(jsonResponse => {
             this.classList.toggle('active')
+            document.body.style.cursor = "default";
             data = jsonResponse;
             blackouts = getBlackoutsFromData();
             updateDropDowns();
@@ -53,7 +55,7 @@ function updateDropDowns() {
             <strong>Min Energy Deficit:</strong> ${Math.abs(Math.max(...blackout.storageHistory))} kWh <br>
             <strong>Max Energy Generated:</strong> ${Math.max(...blackout.totalPowerGenerated)} kWh <br>
             <strong>Min Energy Generated:</strong> ${Math.min(...blackout.totalPowerGenerated)} kWh <br>
-            <strong>Average Energy Deficit:</strong> ${blackout.averageDeficit} kWh <br>
+            <strong>Average Energy Deficit:</strong> ${Math.abs(blackout.averageDeficit)} kWh <br>
             <strong>Average Energy Generated:</strong> ${blackout.averagePowerGenerated} kWh <br>
             <strong>Average Wind Energy Generated:</strong> ${blackout.averageWindGenerated} kWh <br>
             <strong>Average Solar Energy Generated:</strong> ${blackout.averageSolarGenerated} kWh

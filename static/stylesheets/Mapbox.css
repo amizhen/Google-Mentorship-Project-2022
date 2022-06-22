@@ -59,15 +59,15 @@
 }
 
 .solarMarker {
-    background-image: url("/static/images/solar2.svg");
+    background-image: url("/static/images/sunMapPin.svg");
     background-size: cover;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 }
 
 .windMarker {
-    background-image: url("/static/images/windTurbinesvg.svg");
+    background-image: url("/static/images/windMapPin.svg");
     background-size: cover;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 }

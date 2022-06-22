@@ -1,4 +1,4 @@
-var region = ""
+var region = "New York"
 
 var regionMap = {
     "New York": {
@@ -55,7 +55,7 @@ var regionMap = {
     }
 }
 
-var percentagePower = 25
+var percentagePower = 100
 var windFarmSize = 100 // number of plants
 var solarFarmSize = 100 // in square kilometersmeters
 var solarPlants = []
@@ -166,19 +166,25 @@ var energyGenerationGraphConfig = {
     type: 'line',
     data: {
         datasets: [{ // wind
+            label: "Wind Energy",
             borderColor: '#0000FF',
+            backgroundColor: "#0000FF",
             borderWidth: 1,
             radius: 0,
             data: []
         },
         { // solar
+            label: "Solar Energy",
             borderColor: '#FF0000',
+            backgroundColor: "#FF0000",
             borderWidth: 1,
             radius: 0,
             data: []
         },
         { // total
+            label: "Total Energy",
             borderColor: '#FFFFFF',
+            backgroundColor: "#FFFFFF",
             borderWidth: 1,
             radius: 0,
             data: []
@@ -190,7 +196,12 @@ var energyGenerationGraphConfig = {
             intersect: false
         },
         plugins: { 
-            legend: false,
+            legend: {
+                display: true,
+                labels: {
+                    color: "#FFFFFF"
+                }
+            }
         },
         scales
     }
