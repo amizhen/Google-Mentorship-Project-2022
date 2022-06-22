@@ -36,6 +36,7 @@ for (const option of document.querySelectorAll(".selectOption")) {
             this.classList.add('selected');
             this.closest('.select').querySelector('.selectTrigger span').textContent = this.textContent;
             region = this.textContent;
+            removePowerPlants();
         }   
         closeSelectionPanel();
     })

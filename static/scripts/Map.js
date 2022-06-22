@@ -18,7 +18,7 @@ map.on('load', () => {
 map.dragRotate.disable();
 /* map.touchZoomRotate.disable(); */
 
-const markers = [];
+var markers = [];
 
 function selectPowerPlant(lat_coord, lng_coord, className) {
     if (className == "solarMarker") {
@@ -57,10 +57,11 @@ function generatePopup(e) {
 }
 
 // TODO: implement this
-function removePowerPlant(index) {
-    var marker = markers[index];
-    markers.splice(index, 1);
-    marker.remove();
+function removePowerPlants() {
+    markers.forEach(marker => marker.remove());
+    markers = [];
+    solarPlants = [];
+    windPlants = [];
 }
 
 map.on('click', (e) => {
