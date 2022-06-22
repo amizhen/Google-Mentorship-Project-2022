@@ -21,7 +21,7 @@ if __name__ == "__main__":
     from combined_data import get_solar, get_wind
     # print(get_wind(datetime(2007, 3, 1), datetime(2007, 3, 2), 42.355978782625336, -74.9824086324889, 40, 80))
     # pprint.pprint(get_solar(datetime(2007, 3, 1), datetime(2007, 3, 2), 42.355978782625336, -74.9824086324889, 40))
-    # pprint.pprint(get_electric_demand("New York", datetime(2016, 3, 1), datetime(2016, 3, 4)))
+    pprint.pprint(get_electric_demand("New York", datetime(2016, 3, 1), datetime(2016, 3, 2)))
     # pprint.pprint(get_wind(datetime(2007, 3, 1), datetime(2007, 3, 2), 42.355978782625336, -74.9824086324889, 40, 80))
     # pprint.pprint(get_solar(datetime(2007, 3, 1), datetime(2007, 3, 2), 42.355978782625336, -74.9824086324889, 0.15))
     from power_system import PowerSys
