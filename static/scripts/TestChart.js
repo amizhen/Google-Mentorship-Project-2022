@@ -67,7 +67,7 @@ function generateNetChart() {
 }
 
 function generateGraph() {
-    if (blackoutIndex == -1) {
+    if (blackoutIndex == -1 || blackouts[blackoutIndex].dateTimeRange.length > 120) {
         return;
     }
 

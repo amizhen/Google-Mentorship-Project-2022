@@ -56,7 +56,6 @@ function generatePopup(e) {
     )
 }
 
-// TODO: implement this
 function removePowerPlants() {
     markers.forEach(marker => marker.remove());
     markers = [];

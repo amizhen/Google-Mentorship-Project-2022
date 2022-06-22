@@ -5,6 +5,8 @@ var solarFarmSize = 100 // in square kilometersmeters
 var solarPlants = []
 var windPlants = []
 var storageCap = 50000
+var startDate = [2020, 1, 1]
+var endDate = [2021, 1, 1]
 
 var data = null
 var blackouts = [];

@@ -112,7 +112,6 @@ class Filter:
                 get = get.get(p)
             return get
         elif isinstance(data, collections.abc.Sequence):
-            # TODO: THIS BREAKS WITH NESTED LISTS - NEED TO IMPLEMENT THIS
             return data[path]
 
     @classmethod

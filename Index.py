@@ -13,7 +13,7 @@ def index():
 @app.route("/run", methods=["POST"])
 def run():
     data = request.get_json()
-    power_sys = PowerSys(data["region"], data["storageCap"], datetime(2020, 1, 1), datetime(2021, 1, 1), percentSatisfied=data["percentagePower"] / 100)
+    power_sys = PowerSys(data["region"], data["storageCap"], datetime(data["startDate"][0], data["startDate"][1], data["startDate"][2]), datetime(data["endDate"][0], data["endDate"][1], data["endDate"][2]), percentSatisfied=data["percentagePower"] / 100)
     
     for wind in data["windPlants"]:
         power_sys.add_wind((wind[0], wind[1]), data["windFarmSize"]) # 75-159 per farm

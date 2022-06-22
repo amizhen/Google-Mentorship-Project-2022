@@ -16,7 +16,9 @@ document.querySelector(".runButton").addEventListener('click', function () {
                 percentagePower,
                 windFarmSize,
                 solarFarmSize,
-                storageCap
+                storageCap,
+                startDate,
+                endDate
             })
         }).then(res => {
             if (res.ok) {
