@@ -1,109 +1,111 @@
-var data = [];
-var zeroLine = [];
+function dateToString(epoch) {
+    var datetime = new Date(epoch * 1000);
+    return `${datetime.getMonth() + 1}-${datetime.getDate()}-${datetime.getFullYear()} ${datetime.getHours()}:00`;
+}
 
-var fillColors = data.map((value) => value["y"] < 0 ? "rgba(255, 0, 0, 0.2)" : "rgba(0, 255, 0, 0.2)");
+function generateStorageChart() {
+    chart.destroy();
+    energyStoGraphConfig["options"]["scales"]["x"]["labels"] = blackouts[blackoutIndex].dateTimeRange.map(i => dateToString(i));
 
-function generateData() {
-    let prev = 0;
-    for (let i = 0; i < 1000; i++) {
-        prev += 5 - Math.random() * 10;
-        data.push({ x: i, y: prev });
-        zeroLine.push({x: i, y: 0});
+    data = [];
+    for (var i = 0; i < blackouts[blackoutIndex].dateTimeRange.length; i++) {
+        data.push([dateToString(blackouts[blackoutIndex].dateTimeRange[i]), blackouts[blackoutIndex].kstorageHistory[i]]);
+    }
+
+    energyStoGraphConfig["data"]["datasets"][0]["data"] = data;
+    chart = new Chart($("#chart"), energyStoGraphConfig);
+}
+
+function generateGenChart() {
+    chart.destroy();
+    energyGenerationGraphConfig["options"]["scales"]["x"]["labels"] = blackouts[blackoutIndex].dateTimeRange.map(i => dateToString(i));
+
+    var blackout = blackouts[blackoutIndex];
+
+    var windData = [];
+    var solarData = [];
+    var totalData = [];
+
+    for (var i = 0; i < blackout.dateTimeRange.length; i++) {
+        var dateStr = dateToString(blackout.dateTimeRange[i])
+        windData.push([dateStr, blackout.kWindPowerGenerated[i]]);
+        solarData.push([dateStr, blackout.kSolarPowerGenerated[i]]);
+        totalData.push([dateStr, blackout.totalKPowerGenerated[i]]);
+    }
+
+    energyGenerationGraphConfig["data"]["datasets"][0]["data"] = windData;
+    energyGenerationGraphConfig["data"]["datasets"][1]["data"] = solarData;
+    energyGenerationGraphConfig["data"]["datasets"][2]["data"] = totalData;
+
+    chart = new Chart($('#chart'), energyGenerationGraphConfig);
+}
+
+function generateDemandChart() {
+    chart.destroy();
+    demandGraphConfig["options"]["scales"]["x"]["labels"] = blackouts[blackoutIndex].dateTimeRange.map(i => dateToString(i));
+
+    data = [];
+    for (var i = 0; i < blackouts[blackoutIndex].dateTimeRange.length; i++) {
+        data.push([dateToString(blackouts[blackoutIndex].dateTimeRange[i]), blackouts[blackoutIndex].kdemand[i]]);
+    }
+
+    demandGraphConfig["data"]["datasets"][0]["data"] = data;
+    chart = new Chart($("#chart"), demandGraphConfig);
+}
+
+function generateNetChart() {
+    chart.destroy();
+    netChangeGraphConfig["options"]["scales"]["x"]["labels"] = blackouts[blackoutIndex].dateTimeRange.map(i => dateToString(i));
+
+    data = [];
+    for (var i = 0; i < blackouts[blackoutIndex].dateTimeRange.length; i++) {
+        data.push([dateToString(blackouts[blackoutIndex].dateTimeRange[i]), blackouts[blackoutIndex].knet_history[i]]);
+    }
+
+    netChangeGraphConfig["data"]["datasets"][0]["data"] = data;
+    chart = new Chart($("#chart"), netChangeGraphConfig);
+}
+
+function generateGraph() {
+    if (blackoutIndex == -1) {
+        return;
+    }
+
+    switch (graphMode) {
+        case 'Storage':
+            generateStorageChart();
+            break;
+        case 'Generation':
+            generateGenChart();
+            break;
+        case 'Demand':
+            generateDemandChart();
+            break;
+        case 'Net Change':
+            generateNetChart();
+            break;
     }
 }
 
-generateData();
-
-const delayBetweenPoints = 100;
-const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(0) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
-
-const animation = {
-    x: {
-        type: 'number',
-        easing: 'linear',
-        duration: delayBetweenPoints,
-        from: NaN,
-        delay(ctx) {
-            if (ctx.type !== 'data' || ctx.xStarted) {
-                return 0;
-            }
-            ctx.xStarted = true;
-            return ctx.index * delayBetweenPoints
+document.querySelectorAll('.graphButton').forEach(elem =>
+    elem.addEventListener('click', e => {
+        if (!elem.classList.contains('active')) {
+            graphMode = elem.textContent;
+            document.querySelector('.graphButton.active').classList.toggle('active');
+            elem.classList.toggle('active');
+            document.querySelector('#chartContainer > span').textContent = `Energy ${graphMode} Graph`;
+            generateGraph();
         }
-    },
-    y: {
-        type: 'number',
-        easing: 'linear',
-        duration: delayBetweenPoints,
-        from: previousY,
-        delay(ctx) {
-            if (ctx.type !== 'data' || ctx.yStarted) {
-                return 0;
-            }
-            ctx.yStarted = true;
-            return ctx.index * delayBetweenPoints;
-        }
-    }
-};
-
-var config = {
-    type: 'line',
-    data: {
-        datasets: [{
-            borderColor: '#FFFFFF',
-            borderWidth: 1,
-            radius: 0,
-            data: data.slice(0, 100),
-            fill: {
-                target: "origin",
-                above: "rgba(0, 255, 0, 0.4)",
-                below: "rgba(255, 0, 0, 0.4)"
-            }
-        },
-        {
-            borderColor: '#FFFFFF',
-            borderWidth: 1,
-            radius: 0,
-            data: zeroLine.slice(0, 100)
-        }]
-    },
-    options: {
-        animation,
-        interaction: {
-            intersect: false
-        },
-        plugins: { 
-            legend: false,
-        },
-        scales: {
-            x: {
-                type: 'linear',
-                ticks: { color: "#FFFFFF" },
-                grid: { 
-                    borderColor: "#FFFFFF",
-                    color: "rgba(98, 98, 98, 0.4)"
-                }
-            },
-            y: {
-                type: 'linear',
-                ticks: { color: "#FFFFFF" },
-                grid: { 
-                    borderColor: "#FFFFFF",
-                    color: "rgba(98, 98, 98, 0.4)"
-                }
-            }
-        }
-    }
-}
-
-var chart = new Chart(
-    $("#chart"), config
+    })
 )
 
-function resetChart() {
-    chart.destroy();
-    data = [];
-    generateData();
-    config["data"]["datasets"][0]["data"] = data.slice(0,100);
-    chart = new Chart($("#chart"), config);
-}
+document.querySelectorAll('.graphButton').forEach(elem => {
+    if (elem.textContent == 'Storage') {
+        elem.classList.toggle("active");
+        graphMode = 'Storage'
+    }
+})
+
+var chart = new Chart(
+    $("#chart"), energyStoGraphConfig
+)

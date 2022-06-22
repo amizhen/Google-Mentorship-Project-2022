@@ -145,6 +145,11 @@
     background-color: var(--auxiliary2);
 }
 
+.dataContent > .collapsible {
+    border-width: 4px;
+    border-color: white;
+}
+
 .dataContent > .dataContent.selected {
     background-color: var(--auxiliary3);
 }

@@ -31,7 +31,8 @@ function addEventListenersToCollapsibles() {
                     selected.classList.remove('selected');
                 }
                 this.classList.add('selected');
-                resetChart();
+                blackoutIndex = +this.id.substring(9);
+                generateGraph();
             }
         });
     }

@@ -99,7 +99,7 @@ main {
     margin-top: 20px;
     background-color: var(--primary);
     border: 0;
-    border-radius: 100px;
+    border-radius: 100px; 
     box-sizing: border-box;
     color: var(--auxiliary1);
     cursor: pointer;
@@ -114,7 +114,7 @@ main {
     padding: 0px 20px 0px 20px;
     text-align: center;
     touch-action: manipulation;
-    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
     vertical-align: middle;
 }
 
@@ -133,3 +133,45 @@ main {
     background: rgba(0, 0, 0, .08);
     color: rgba(0, 0, 0, .3);
 }
+
+#buttonSelections {
+    display: inline-flex;
+    width: 80%;
+    height: fit-content;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.graphButton {
+    align-items: center;
+    margin: 20px 10px 10px 10px;
+    background-color: var(--primary);
+    border: 0;
+    border-radius: 100px;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: var(--auxiliary1);
+    display: inline-flex;
+    font-size: 15px;
+    font-weight: bold;
+    justify-content: center;
+    line-height: 10px;
+    width: 20%;
+    height: 2em;
+    overflow: hidden;
+    padding: 0px 10px;
+    text-align: center;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    vertical-align: middle;
+}
+
+.graphButton:hover {
+    background-color: var(--highlight);
+    color: var(--auxiliary1);
+}
+
+.graphButton.active {
+    background: #09223b;
+    color: rgb(255, 255, 255, .7);
+}
+
