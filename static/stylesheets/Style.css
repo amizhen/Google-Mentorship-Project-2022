@@ -6,6 +6,7 @@
     --auxiliary2: #dfdfdf;
     --auxiliary3: #bdbdbd;
     --highlight: #1c5299;
+    --active: #002247;
 }
 
 body {
@@ -90,7 +91,7 @@ main {
 }
 
 #infoPanel {
-    height: 200px;
+    height: fit-content;
 }
 
 .runButton {
@@ -124,7 +125,7 @@ main {
 }
 
 .runButton.active {
-    background: #09223b;
+    background: var(--active);
     color: rgb(255, 255, 255, .7);
 }
 
@@ -170,7 +171,37 @@ main {
 }
 
 .graphButton.active {
-    background: #09223b;
+    background: var(--active);
     color: rgb(255, 255, 255, .7);
 }
 
+#infoPanel > h1 {
+    color: var(--auxiliary1);
+    margin-left: 30px;
+    font-size: 60px;
+    margin-bottom: 0px;
+}
+
+.infoSection {
+    margin: 0px 30px;
+    color: var(--auxiliary1)
+}
+
+.infoSection > p {
+    margin: 20px;
+    font-size: larger;
+    font-weight: 500;
+}
+
+.infoSection > ul {
+    font-weight: 500;
+    margin-top: 0px;
+}
+
+.infoSection > ul > li {
+    margin: 2px 0px
+}
+
+.infoSection > ul > li > a {
+    color: var(--auxiliary1);
+}

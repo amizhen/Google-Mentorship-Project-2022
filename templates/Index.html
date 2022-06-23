@@ -29,13 +29,13 @@
                         <h1>Percentage of Power to Supply Region</h1>
                         <span>Please enter a value from 1 to 100</span>
                         <input type="number" id="powerPercentage" class="inputButton" min="1" max="100" step="1"
-                            value="25">
+                            value="100">
                     </div>
                     <div class="inputPanel">
                         <h1>Solar Farm Size in Square Kilometers</h1>
                         <span>Please enter a value from 100 to 5000</span>
-                        <input type="number" id="solarFarmSize" class="inputButton" min="100" max="5000"
-                            step="10000" value="100">
+                        <input type="number" id="solarFarmSize" class="inputButton" min="10" max="5000"
+                            step="10" value="100">
                     </div>
                     <div class="inputPanel">
                         <h1>Number of Wind Turbines in Wind Farm</h1>
@@ -51,17 +51,90 @@
                     </div>
                     <div class="inputPanel">
                         <h1>Start Date For Simulation</h1>
-                        <span>This is an invalid date</span>
+                        <span>Invalid date range</span>
                         <input type="date" id="startDate" class="inputButton" min="2016-01-01" max="2022-01-01" value="2020-01-01">
                     </div>
                     <div class="inputPanel">
                         <h1>End Date For Simulation</h1>
-                        <span>This is an invalid date</span>
+                        <span>Invalid date range</span>
                         <input type="date" id="endDate" class="inputButton" min="2016-01-01" max="2022-01-01" value="2021-01-01">
                     </div>
                 </div>
                 <div id="infoPanel">
-                    <!-- Information about simulation goes here -->
+                    <h1>Information</h1>
+                    <div class="infoSection">
+                        <h1>How to use the simulation?</h1>
+                        <p>
+                            This page is separated into multiple sections: the map, the panel below the map, and the panel to the right. Each of these
+                            sections work together to simulate renewable energy generation.
+                        </p>
+
+                        <p>
+                            The map is the interface for the user to select locations for renewable energy plants. To do so, click on any location on the map. 
+                            Doing so should open a popup containing two buttons: <em>Solar Panel</em> and <em>Wind Plant</em>. Click on the
+                            button to build the chosen renewable energy plant at the location chosen. Now there should be markers on the map denoting the 
+                            power plant type.
+                        </p>
+
+                        <p>
+                            The panel below the map contains the constants of the simulation. There are six constants:
+                        </p>
+
+                        <ul>
+                            <li><em>Percentage of Power to Supply Region</em>: A number from 1 to 100 that notes the percentage of power the renewable power grid is expected to fulfill</li>
+                            <li><em>Solar Farm Size in Square Kilometers</em>: The size of the solar farms ranging from 10 km<sup>2</sup> to 5,000 km<sup>2</sup></li>
+                            <li><em>Number of Wind Turbines in Wind Farm</em>: The number of wind turbines in the wind farm ranging from 10 to 1,000 turbines</li>
+                            <li><em>Electricity Storage Amount</em>: The maximum amount of energy that can be stored at a time in the simulation</li>
+                            <li><em>Start Date for Simulation</em>: Ranges from 1/1/2016 - 1/1/2022</li>
+                            <li><em>End Date for Simulation</em>: Ranges from 1/1/2016 - 1/1/2022</li>
+                        </ul>
+
+                        <p>
+                            The start date can not exceed the end date.
+                        </p>
+
+                        <p>
+                            The right panel contains many elements. The topmost element is a select menu to select the region in which you wish to power with the renewable poewr grid.
+                            Selecting the region will clear all existing markers on the map and move the map to the region's location. 
+                        </p>
+
+                        <p>
+                            The second element is the <em>Run</em> button which, if pressed, will execute the simulation. This might take a few seconds depending on the number of
+                            renewable plants, date range, and other factors. Once the simulation is done running, the dropdown called <em>Blackout Breakdown</em> should now be
+                            populated with data of when blackout(s) has occurred in the simulation. Opening the dropdown should reveal a list of date and time ranges. Click on
+                            those elements should reveal the specific details of the blackout. 
+                        </p>
+
+                        <p>
+                            With the specific details of the blackout, you are able to click on the details which will illustrate the hourly data onto the graph above <em>Blackout Breakdown</em>.
+                            There are four different graphs that can be illustrated. To select one of these charts, press on one of the four buttons found in a row above the graph. Hovering 
+                            your mouse over each datapoint will provide the specific values at that hour.
+                        </p>
+
+                        <p>
+                            The graph will only be displayed if the blackout length is less than 120 hours.
+                        </p>
+
+                    </div>
+                    <div class="infoSection">
+                        <h1>Why do we need this?</h1>
+                        <p>
+                            We simulate a hypothetical renewable electrical grid made of solar panels, wind turbines, and battery storage, 
+                            and return relevant performance data about the performance. We hope that this can help get an idea of what is 
+                            required to transition our grid to renewable energy. 
+                        </p>
+                    </div>
+                    <div class="infoSection">
+                        <h1>Where does the data come from?</h1>
+                        <p>
+                            We use two API's to get our data. We then use various formulas to convert it into energy.
+                        </p>
+
+                        <ul>
+                            <li><a href="https://www.eia.gov/opendata/qb.php?category=2122628">Electricity Demand</a></li>
+                            <li><a href="https://power.larc.nasa.gov/data-access-viewer/">Data about Wind and Solar</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,7 +168,7 @@
             </div>
             <div id="dataPanel">
                 <div class="collapsible">
-                    <span>Blackout Breakdowns</span>
+                    <span>Blackout Breakdown</span>
                     <div class="selectArrow" style="right: 3.5%;"></div>
                 </div>
             </div>
