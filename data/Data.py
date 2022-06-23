@@ -42,7 +42,7 @@ regions = {
 with open("key.txt", "r") as file:
     API_KEY = file.read(40)
 
-@functools.lru_cache(maxsize=3)
+@functools.lru_cache(maxsize=20)
 def get_wind_data_10m(lat: float, lon: float, start: datetime, end: datetime):
     end = end - timedelta(days=1)
     response = requests.get(
@@ -53,7 +53,7 @@ def get_wind_data_10m(lat: float, lon: float, start: datetime, end: datetime):
     else:
         raise ValueError()
 
-@functools.lru_cache(maxsize=3)
+@functools.lru_cache(maxsize=20)
 def get_wind_data_50m(lat: float, lon: float, start: datetime, end: datetime):
     end = end - timedelta(days=1)
     response = requests.get(
@@ -64,11 +64,11 @@ def get_wind_data_50m(lat: float, lon: float, start: datetime, end: datetime):
     else:
         raise ValueError()
 
-@functools.lru_cache(maxsize=3)
+@functools.lru_cache(maxsize=20)
 def _get_electric_data(state : str):
     return requests.get(f"https://api.eia.gov/series/?api_key={API_KEY}&series_id=EBA.{regions[state]}-ALL.D.H")
 
-@functools.lru_cache(maxsize=3)
+@functools.lru_cache(maxsize=20)
 def get_electric_demand(state: str, start: datetime, end: datetime):
     """
     A function that retrieves electric demands of states. 
@@ -94,7 +94,7 @@ def get_electric_demand(state: str, start: datetime, end: datetime):
     else:
         raise ValueError(f"Request Failed {response.status_code}")
 
-@functools.lru_cache(maxsize=3)
+@functools.lru_cache(maxsize=20)
 def get_solar_data(lat : float, lon : float, start : datetime, end : datetime):
     end -= timedelta(days=1) # api end is inclusive
     response = requests.get(
@@ -110,7 +110,7 @@ def get_solar_data(lat : float, lon : float, start : datetime, end : datetime):
         return data
     return
     
-@functools.lru_cache(maxsize=3)
+@functools.lru_cache(maxsize=20)
 def zipcode_to_region(zipcode: str):
     with open('csv/2010zipcodes.csv', 'r') as zips:
         data = reader(zips)
