@@ -45,20 +45,20 @@ function updateDropDowns() {
         var pDataContent = document.createElement('p');
         pDataContent.innerHTML = (blackout.endDateTime - blackout.startDateTime) / 3600 == 1 ? `
             <strong>Duration:</strong> 1 h <br>
-            <strong>Energy Deficit:</strong> ${Math.abs(blackout.storageHistory[0])} kWh <br>
-            <strong>Energy Generated:</strong> ${blackout.totalPowerGenerated[0]} kWh <br>
-            <strong>Wind Energy Generated:</strong> ${blackout.windPowerGenerated[0]} kWh <br>
-            <strong>Solar Energy Generated:</strong> ${blackout.solarPowerGenerated[0]} kWh
+            <strong>Energy Deficit:</strong> ${Math.abs(blackout.storageHistory[0])} MWh <br>
+            <strong>Energy Generated:</strong> ${blackout.totalPowerGenerated[0]} MWh <br>
+            <strong>Wind Energy Generated:</strong> ${blackout.windPowerGenerated[0]} MWh <br>
+            <strong>Solar Energy Generated:</strong> ${blackout.solarPowerGenerated[0]} MWh
         ` : `
             <strong>Duration:</strong> ${(blackout.endDateTime - blackout.startDateTime) / 3600} h <br>
-            <strong>Max Energy Deficit:</strong> ${Math.abs(Math.min(...blackout.storageHistory))} kWh <br>
-            <strong>Min Energy Deficit:</strong> ${Math.abs(Math.max(...blackout.storageHistory))} kWh <br>
-            <strong>Max Energy Generated:</strong> ${Math.max(...blackout.totalPowerGenerated)} kWh <br>
-            <strong>Min Energy Generated:</strong> ${Math.min(...blackout.totalPowerGenerated)} kWh <br>
-            <strong>Average Energy Deficit:</strong> ${Math.abs(blackout.averageDeficit)} kWh <br>
-            <strong>Average Energy Generated:</strong> ${blackout.averagePowerGenerated} kWh <br>
-            <strong>Average Wind Energy Generated:</strong> ${blackout.averageWindGenerated} kWh <br>
-            <strong>Average Solar Energy Generated:</strong> ${blackout.averageSolarGenerated} kWh
+            <strong>Max Energy Deficit:</strong> ${Math.abs(Math.min(...blackout.storageHistory))} MWh <br>
+            <strong>Min Energy Deficit:</strong> ${Math.abs(Math.max(...blackout.storageHistory))} MWh <br>
+            <strong>Max Energy Generated:</strong> ${Math.max(...blackout.totalPowerGenerated)} MWh <br>
+            <strong>Min Energy Generated:</strong> ${Math.min(...blackout.totalPowerGenerated)} MWh <br>
+            <strong>Average Energy Deficit:</strong> ${Math.abs(blackout.averageDeficit)} MWh <br>
+            <strong>Average Energy Generated:</strong> ${blackout.averagePowerGenerated} MWh <br>
+            <strong>Average Wind Energy Generated:</strong> ${blackout.averageWindGenerated} MWh <br>
+            <strong>Average Solar Energy Generated:</strong> ${blackout.averageSolarGenerated} MWh
             `
 
         var innerDataContent = document.createElement('div');
