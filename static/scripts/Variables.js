@@ -100,7 +100,7 @@ const scales = {
         },
         title: {
             display: true,
-            text: "Energy [kWh]",
+            text: "Energy [MWh]",
             color: "#FFFFFF"
         }
     }

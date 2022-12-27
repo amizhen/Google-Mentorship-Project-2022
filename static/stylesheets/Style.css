@@ -201,3 +201,7 @@ main {
 .infoSection > ul > li {
     margin: 2px 0px
 }
+
+.infoSection > ul > li > a {
+    color: var(--auxiliary1);
+}
