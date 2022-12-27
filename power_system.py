@@ -124,12 +124,12 @@ class PowerSys:
 
 
 if __name__ == '__main__':
-    syst = PowerSys("New York", 1000, datetime(2016, 1, 1), datetime(2017, 1, 1))
-    syst.add_solar((42.77376799574172, -75.0433619493047), 1000000000)
+    syst = PowerSys("New York", 20000, datetime(2016, 1, 1), datetime(2017, 1, 1))
+    syst.add_solar((42.77376799574172, -75.0433619493047), 250000000)
     syst.add_wind((42.77376799574172, -75.0433619493047), 10000)
     syst.run()
     for i in range(len(syst.storage_history)):
-        print(list(syst.gen_history.values())[i], list(syst.demand.values())[i], list(syst.storage_history.values())[i])
+        print(list(syst.gen_history.keys())[i], list(syst.gen_history.values())[i], list(syst.demand.values())[i], list(syst.storage_history.values())[i] )
 
     print(syst.calc_needed_storage())
 

@@ -58,11 +58,11 @@ def calc_wind_power(radius: float, wind_velocity: float, efficiency=0.4, air_den
             however in practice it is between 35-45.
 
     Returns:
-        The power (Megawatt hours) produced by the wind turbine, with an aditional coefficant of 0.6 to account for
-        mechanical losses.
+        # The power (Megawatt hours) produced by the wind turbine, with an aditional coefficant of 0.6 to account for
+        # mechanical losses.
     """
 
-    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 0.6 * 10 ** -6
+    return 0.5 * air_density * (radius ** 2) * math.pi * wind_velocity ** 3 * efficiency * 10 ** -6 #* 0.6
 
 
 def calc_solar_power(GHI: float, efficiency: float) -> float:
@@ -77,7 +77,7 @@ def calc_solar_power(GHI: float, efficiency: float) -> float:
         The power (megawatt hours) produced by the solar panel
     """
     # The 0.75 is to account for dirt, shade, etc
-    return GHI * efficiency * 0.75 * 10 ** -6
+    return GHI * efficiency * 10 ** -6 # * 0.75
 
 
 def get_ghi(zenith: float, dni: float, dhi: float):
